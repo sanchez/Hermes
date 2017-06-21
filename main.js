@@ -53,7 +53,7 @@ function process_bullet_point(line) {
         return false;
     }
     console.log(result);
-    var bulletLevel = (result[1] == undefined) ? 1 : result[1].length;
+    var bulletLevel = (result[1] == undefined) ? 1 : result[1].length/4;
     var bulletText = result[2];
     handler.bullet(docCache, bulletLevel, bulletText);
     line.get_line();

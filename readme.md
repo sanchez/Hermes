@@ -10,3 +10,8 @@ To bold a statement, simply surround the statement with double asterisks (\*\*)
 
 ### Italics
 To italics a statement, simply surround the statement with single asterisks (\*)
+
+### Lists
+Currently list indentation is support with support for sub-lists as well. This is done by having a dash followed by a space then text.
+- List one
+- List two
