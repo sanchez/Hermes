@@ -76,18 +76,12 @@ child.stdout.on('data', function (chunk) {
     process.stdout.write(chalk.yellow(chunk));
 });
 child.on('exit', function() {
-    console.log("Here");
-    /*if (fs.existsSync("../main.pdf")) {
-        fs.unlinkSync("../main.pdf");
-    }
-    fs.renameSync("main.pdf", "../main.pdf");*/
-
     var source = fs.createReadStream('main.pdf');
     var dest = fs.createWriteStream('../main.pdf');
 
     source.pipe(dest);
-    source.on('end', function() { console.log("Copied successfully"); });
-    source.on('error', function(err) { console.log("Error: " + err); });
+    source.on('end', function() { console.log(chalk.green("Copied successfully")); });
+    source.on('error', function(err) { console.log(chalk.red("Error: " + err)); });
 });
 
 console.log(docCache);
