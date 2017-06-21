@@ -45,6 +45,21 @@ function process_header(line) {
     return true;
 }
 
+function process_bullet_point(line) {
+    var regex = /^( +)*- (.+)$/;
+    var bullet = line.check_line();
+    var result = bullet.match(regex);
+    if (result == null) {
+        return false;
+    }
+    console.log(result);
+    var bulletLevel = (result[1] == undefined) ? 1 : result[1].length;
+    var bulletText = result[2];
+    handler.bullet(docCache, bulletLevel, bulletText);
+    line.get_line();
+    return true;
+}
+
 function process_plain_text(line) {
     var text = line.get_line();
     handler.text(docCache, text);
@@ -71,6 +86,7 @@ while (lineObject.check_line() != undefined) {
     process_bold(lineObject);
     process_italics(lineObject);
     if (process_header(lineObject)) {
+    } else if (process_bullet_point(lineObject)) {
     } else {
         process_plain_text(lineObject);
     }
@@ -98,3 +114,5 @@ child.on('exit', function() {
     source.on('end', function() { console.log(chalk.green("Copied successfully")); });
     source.on('error', function(err) { console.log(chalk.red("Error: " + err)); });
 });
+
+console.log(docCache);
