@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 var chalk = require('chalk');
+var fs = require("fs");
 console.log(chalk.blue("Running Hermes - Markdown to pdf"));
-var PDFDocument = require('pdfkit');
-var doc = new PDFDocument({bufferPages: true});
 var handler = require("./lib/doc.js");
+var docCache = [];
+var outputFileName;
 
 function check_arguments(args) {
     if (args.length != 2) {
@@ -12,38 +13,68 @@ function check_arguments(args) {
         process.exit(1);
     }
     
-    var fs = require("fs");
     var contents = fs.readFileSync(args[0], 'utf8');
-    doc.pipe(fs.createWriteStream(args[1]));
+    outputFileName = args[1];
     return contents;
 }
 
 function process_header(line) {
     var regex = /^(#{1,3})(\{(.+)\})? (.+)$/;
-    var result = line.match(regex);
+    var heading = line.get_line();
+    var result = heading.match(regex);
     if (result == null) {
         return false;
     }
     var headingLevel = result[1];
     var headingText = result[4];
     var headingOptions = result[3];
-    handler.heading(doc, headingLevel, headingText, headingOptions);
+    handler.heading(docCache, headingLevel, headingText, headingOptions);
     return true;
 }
 
 function process_plain_text(line) {
-    line = line.replace(/\\#/g, "#");
-    console.log("Text: " + line);
+    //var text = line.getLine().replace(/\\#/g, "#");
+    var text = line.get_line();
+    console.log("Text: " + text);
     return true;
 }
 
 var contents = check_arguments(process.argv.slice(2));
-contents.split("\n").forEach((line) => {
-    if (process_header(line)) {
-    } else {
-        process_plain_text(line);
+var lineObject = {
+    lines: contents.split("\n"),
+    pos: 0,
+    check_line: function() {
+        return this.lines[this.pos];
+    },
+    get_line: function() {
+        return this.lines[this.pos++];
     }
-});
+};
+console.log(lineObject);
 
-doc.flushPages();
-doc.end();
+handler.pre_document(docCache, undefined);
+while (lineObject.check_line() != undefined) {
+    if (process_header(lineObject)) {
+    } else {
+        process_plain_text(lineObject);
+    }
+}
+handler.post_document(docCache, undefined);
+
+if (!fs.existsSync(".hermes")) {
+    fs.mkdirSync(".hermes");
+}
+process.chdir(".hermes");
+var file = fs.createWriteStream("main.tex");
+docCache.forEach(function (line) {
+    file.write(line + '\n');
+});
+console.log("File Written");
+var spawn = require("child_process").spawn;
+var child = spawn('pdflatex', ['main.tex']);
+child.stdout.on('data', function (chunk) {
+    process.stdout.write(chalk.yellow(chunk));
+});
+fs.rename("main.pdf", "../main.pdf", undefined);
+
+console.log(docCache);
