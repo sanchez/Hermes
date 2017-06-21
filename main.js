@@ -20,7 +20,7 @@ function check_arguments(args) {
 
 function process_header(line) {
     var regex = /^(#{1,3})(\{(.+)\})? (.+)$/;
-    var heading = line.get_line();
+    var heading = line.check_line();
     var result = heading.match(regex);
     if (result == null) {
         return false;
@@ -29,13 +29,13 @@ function process_header(line) {
     var headingText = result[4];
     var headingOptions = result[3];
     handler.heading(docCache, headingLevel, headingText, headingOptions);
+    line.get_line();
     return true;
 }
 
 function process_plain_text(line) {
-    //var text = line.getLine().replace(/\\#/g, "#");
     var text = line.get_line();
-    console.log("Text: " + text);
+    handler.text(docCache, text);
     return true;
 }
 
@@ -75,6 +75,19 @@ var child = spawn('pdflatex', ['main.tex']);
 child.stdout.on('data', function (chunk) {
     process.stdout.write(chalk.yellow(chunk));
 });
-fs.rename("main.pdf", "../main.pdf", undefined);
+child.on('exit', function() {
+    console.log("Here");
+    /*if (fs.existsSync("../main.pdf")) {
+        fs.unlinkSync("../main.pdf");
+    }
+    fs.renameSync("main.pdf", "../main.pdf");*/
+
+    var source = fs.createReadStream('main.pdf');
+    var dest = fs.createWriteStream('../main.pdf');
+
+    source.pipe(dest);
+    source.on('end', function() { console.log("Copied successfully"); });
+    source.on('error', function(err) { console.log("Error: " + err); });
+});
 
 console.log(docCache);
