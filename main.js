@@ -50,7 +50,6 @@ var lineObject = {
         return this.lines[this.pos++];
     }
 };
-console.log(lineObject);
 
 handler.pre_document(docCache, undefined);
 while (lineObject.check_line() != undefined) {
@@ -69,7 +68,6 @@ var file = fs.createWriteStream("main.tex");
 docCache.forEach(function (line) {
     file.write(line + '\n');
 });
-console.log("File Written");
 var spawn = require("child_process").spawn;
 var child = spawn('pdflatex', ['main.tex']);
 child.stdout.on('data', function (chunk) {
@@ -83,5 +81,3 @@ child.on('exit', function() {
     source.on('end', function() { console.log(chalk.green("Copied successfully")); });
     source.on('error', function(err) { console.log(chalk.red("Error: " + err)); });
 });
-
-console.log(docCache);
