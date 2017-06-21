@@ -18,6 +18,18 @@ function check_arguments(args) {
     return contents;
 }
 
+function process_bold(line) {
+    var text = line.check_line();
+    var result = text.replace(/\*{2}(\w+)\*{2}/g, handler.boldText);
+    line.set_line(result);
+}
+
+function process_italics(line) {
+    var text = line.check_line();
+    var result = text.replace(/\*(\w+)\*/g, handler.italicsText);
+    line.set_line(result);
+}
+
 function process_header(line) {
     var regex = /^(#{1,3})(\{(.+)\})? (.+)$/;
     var heading = line.check_line();
@@ -48,11 +60,16 @@ var lineObject = {
     },
     get_line: function() {
         return this.lines[this.pos++];
+    },
+    set_line: function(newLine) {
+        this.lines[this.pos] = newLine;
     }
 };
 
 handler.pre_document(docCache, undefined);
 while (lineObject.check_line() != undefined) {
+    process_bold(lineObject);
+    process_italics(lineObject);
     if (process_header(lineObject)) {
     } else {
         process_plain_text(lineObject);
