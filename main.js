@@ -25,7 +25,7 @@ function process_header(line) {
     if (result == null) {
         return false;
     }
-    var headingLevel = result[1];
+    var headingLevel = result[1].length;
     var headingText = result[4];
     var headingOptions = result[3];
     handler.heading(docCache, headingLevel, headingText, headingOptions);
