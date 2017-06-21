@@ -31,7 +31,7 @@ function process_italics(line) {
 }
 
 function process_header(line) {
-    var regex = /^(#{1,3})(\{(.+)\})? (.+)$/;
+    var regex = /^(#{1,6})(\{(.+)\})? (.+)$/;
     var heading = line.check_line();
     var result = heading.match(regex);
     if (result == null) {

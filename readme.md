@@ -3,7 +3,7 @@ Hermes is a nodejs application designed to convert markdown to pdf (using latex)
 
 ## Currently supported
 ### Headings
-Headings can be easily made using standard markdown hashes (\#)
+Headings can be easily made using standard markdown hashes (\#). The parser supports six levels of headings. However some interpreters only support a particular number
 
 ### Bold
 To bold a statement, simply surround the statement with double asterisks (\*\*)
