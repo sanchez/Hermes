@@ -12,6 +12,7 @@ class Handler:
         self.content = []
         self.styles = getSampleStyleSheet()
         self.primaryColor = "#0B75CB"
+        
         self.styles.add(ParagraphStyle(
             "Heading 1",
             parent=self.styles["Normal"],
