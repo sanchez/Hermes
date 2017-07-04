@@ -27,6 +27,13 @@ class Handler:
             endDots=None,
             fontSize=16
         ))
+        self.styles.add(ParagraphStyle(
+            "Heading 3",
+            parent=self.styles["Heading 2"],
+            endDots=None,
+            fontSize=12,
+            textColor="#000"
+        ))
 
     def save(self):
         self.c.build(self.content, onFirstPage=self.add_header_footer, onLaterPages=self.add_header_footer)
@@ -41,6 +48,10 @@ class Handler:
             self.content.append(Paragraph(title, self.styles["Heading 1"]))
         elif depth == 2:
             self.content.append(Paragraph(title, self.styles["Heading 2"]))
+        elif depth == 3:
+            newTitle = "<font color=%s>%s</font><font color=black>%s</font>" % (self.primaryColor, title[:1], title[1:])
+            print(newTitle)
+            self.content.append(Paragraph(newTitle, self.styles["Heading 3"]))
         self.content.append(Bookmark(title, depth))
         
 
