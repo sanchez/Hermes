@@ -5,7 +5,7 @@ class FileReader:
     re_heading = re.compile(r"^(#{1,6})(\{(.+)\})? (.+)$")
     re_bold = re.compile(r"\*{2}(\w+)\*{2}")
     re_italics = re.compile(r"\*(\w+)\*")
-    re_bullet_item = re.compile(r"^(.*)- (.+)$")
+    re_bullet_item = re.compile(r"^(.*)[-\.\*] (.+)$")
 
     def __init__(self, sourceFile, docHandler):
         print("Reading from file: %s" % sourceFile)
@@ -44,10 +44,10 @@ class FileReader:
 
     def process_header(self, line):
         result = re.search(self.re_heading, line)
-        heading_depth = len(result.group(1))
-        heading_options = result.group(3)
-        heading_title = result.group(4)
-        self.docHandler.add_heading(heading_title, heading_depth, heading_options)
+        headingDepth = len(result.group(1))
+        headingOptions = result.group(3)
+        headingTitle = result.group(4)
+        self.docHandler.add_heading(headingTitle, headingDepth, headingOptions)
 
     def if_bullet(self, line):
         return re.search(self.re_bullet_item, line) != None
