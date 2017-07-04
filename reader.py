@@ -11,17 +11,18 @@ class FileReader:
 
         self.file = open(self.fileName, "r")
         self.fileContents = self.file.read().split("\n");
-        for line in self.fileContents:
-            line.strip()
 
         self.process_file()
         docHandler.save()
 
     def process_file(self):
         for line in self.fileContents:
+            line.strip()
             print("Processing line: " + line)
             if self.if_header(line):
                 self.process_header(line)
+            else:
+                self.process_plain_text(line)
 
     def if_header(self, line):
         result = re.search(self.re_heading, line)
@@ -37,4 +38,4 @@ class FileReader:
         self.docHandler.add_heading(heading_title, heading_depth, heading_options)
 
     def process_plain_text(self, line):
-        pass
+        self.docHandler.add_plain_text(line)
