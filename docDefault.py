@@ -19,20 +19,24 @@ class Handler:
             endDots="_",
             fontSize=20,
             spaceAfter=12,
-            fontName="Helvetica-Bold"
+            fontName="Helvetica-Bold",
+            spaceBefore=18
         ))
         self.styles.add(ParagraphStyle(
             "Heading 2",
             parent=self.styles["Heading 1"],
             endDots=None,
-            fontSize=16
+            fontSize=16,
+            spaceAfter=8,
+            spaceBefore=0
         ))
         self.styles.add(ParagraphStyle(
             "Heading 3",
             parent=self.styles["Heading 2"],
             endDots=None,
             fontSize=12,
-            textColor="#000"
+            textColor="#000",
+            spaceAfter=4
         ))
 
     def save(self):
