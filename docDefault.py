@@ -47,6 +47,12 @@ class Handler:
         canv.setAuthor("Hermes (Daniel Fitz")
         canv.setTitle(self.destName)
         canv.setFont('Helvetica', 12)
+        
+    def add_bold(self, matchobj):
+        return "<b>%s</b>" % matchobj.group(1)
+
+    def add_italics(self, matchobj):
+        return "<i>%s</i>" % matchobj.group(1)
 
     def add_heading(self, title, depth, options):
         if depth == 1:

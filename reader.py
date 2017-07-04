@@ -3,6 +3,8 @@ import re
 class FileReader:
 
     re_heading = re.compile(r"^(#{1,6})(\{(.+)\})? (.+)$")
+    re_bold = re.compile(r"\*{2}(\w+)\*{2}")
+    re_italics = re.compile(r"\*(\w+)\*")
 
     def __init__(self, sourceFile, docHandler):
         print("Reading from file: %s" % sourceFile)
@@ -18,6 +20,8 @@ class FileReader:
     def process_file(self):
         for line in self.fileContents:
             line.strip()
+            line = self.process_bold(line)
+            line = self.process_italics(line)
             if self.if_header(line):
                 self.process_header(line)
             else:
@@ -28,6 +32,12 @@ class FileReader:
         if result == None:
             return False
         return True
+
+    def process_bold(self, line):
+        return re.sub(self.re_bold, self.docHandler.add_bold, line)
+
+    def process_italics(self, line):
+        return re.sub(self.re_italics, self.docHandler.add_italics, line)
 
     def process_header(self, line):
         result = re.search(self.re_heading, line)

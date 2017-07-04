@@ -8,3 +8,5 @@ Some other text will go here eventually
 ## Smaller Header
 ### Smaller Again
 Follow up text here
+
+This is testing out the **bold** feature, **twice** in one row! *Italics* are also supported too!
