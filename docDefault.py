@@ -31,10 +31,10 @@ class Handler:
     def save(self):
         self.c.build(self.content, onFirstPage=self.add_header_footer, onLaterPages=self.add_header_footer)
 
-    def add_header_footer(self, canvas, doc):
-        canvas.setAuthor("Hermes (Daniel Fitz")
-        canvas.setTitle(self.destName)
-        canvas.setFont('Helvetica', 12)
+    def add_header_footer(self, canv, doc):
+        canv.setAuthor("Hermes (Daniel Fitz")
+        canv.setTitle(self.destName)
+        canv.setFont('Helvetica', 12)
 
     def add_heading(self, title, depth, options):
         if depth == 1:
