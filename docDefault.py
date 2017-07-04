@@ -21,6 +21,12 @@ class Handler:
             spaceAfter=12,
             fontName="Helvetica-Bold"
         ))
+        self.styles.add(ParagraphStyle(
+            "Heading 2",
+            parent=self.styles["Heading 1"],
+            endDots=None,
+            fontSize=16
+        ))
 
     def save(self):
         self.c.build(self.content, onFirstPage=self.add_header_footer, onLaterPages=self.add_header_footer)
@@ -31,9 +37,12 @@ class Handler:
         canvas.setFont('Helvetica', 12)
 
     def add_heading(self, title, depth, options):
-        self.content.append(Bookmark(title, depth))
         if depth == 1:
             self.content.append(Paragraph(title, self.styles["Heading 1"]))
+        elif depth == 2:
+            self.content.append(Paragraph(title, self.styles["Heading 2"]))
+        self.content.append(Bookmark(title, depth))
+        
 
     def add_plain_text(self, text):
         self.content.append(Paragraph(text, self.styles["Normal"]))
