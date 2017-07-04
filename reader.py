@@ -18,7 +18,6 @@ class FileReader:
     def process_file(self):
         for line in self.fileContents:
             line.strip()
-            print("Processing line: " + line)
             if self.if_header(line):
                 self.process_header(line)
             else:
