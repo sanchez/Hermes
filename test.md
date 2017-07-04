@@ -10,3 +10,9 @@ Some other text will go here eventually
 Follow up text here
 
 This is testing out the **bold** feature, **twice** in one row! *Italics* are also supported too!
+- Item 1
+- Item 2
+    - How about some **bold** for good measure
+- Item 3
+    - Item 3.1
+    - Item 3.2

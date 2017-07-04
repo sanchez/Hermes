@@ -64,6 +64,15 @@ class Handler:
             self.content.append(Paragraph(newTitle, self.styles["Heading 3"]))
         self.content.append(Bookmark(title, depth))
         
+    def add_bullet(self, text, depth):
+        bulletChar = u"\u2022"
+        contentLine = "%s %s" % (bulletChar, text)
+        bulletIndent = depth * 10 + 5
+        self.content.append(Paragraph(contentLine, ParagraphStyle(
+            "newBullet",
+            parent=self.styles["Bullet"],
+            leftIndent=bulletIndent
+        )))
 
     def add_plain_text(self, text):
         if text == "":
