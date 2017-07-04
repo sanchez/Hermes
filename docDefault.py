@@ -7,9 +7,6 @@ from support import Bookmark
 class Handler:
     def __init__(self, destName):
         self.c = SimpleDocTemplate(destName, bottomup=0)
-        # self.c.setAuthor("Hermes (Daniel Fitz)")
-        # self.c.setTitle(destName)
-        # self.c.setFont('Helvetica', 12)
         self.destName = destName
 
         self.content = []
@@ -27,7 +24,6 @@ class Handler:
 
     def save(self):
         self.c.build(self.content, onFirstPage=self.add_header_footer, onLaterPages=self.add_header_footer)
-        # self.c.save()
 
     def add_header_footer(self, canvas, doc):
         canvas.setAuthor("Hermes (Daniel Fitz")
@@ -40,4 +36,4 @@ class Handler:
             self.content.append(Paragraph(title, self.styles["Heading 1"]))
 
     def add_plain_text(self, text):
-        self.content.append(Paragraph("Text: %s" % text, self.styles["Normal"]))
+        self.content.append(Paragraph(text, self.styles["Normal"]))
