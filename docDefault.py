@@ -12,7 +12,7 @@ class Handler:
         self.content = []
         self.styles = getSampleStyleSheet()
         self.primaryColor = "#0B75CB"
-        
+
         self.styles.add(ParagraphStyle(
             "Heading 1",
             parent=self.styles["Normal"],
@@ -55,10 +55,12 @@ class Handler:
             self.content.append(Paragraph(title, self.styles["Heading 2"]))
         elif depth == 3:
             newTitle = "<font color=%s>%s</font><font color=black>%s</font>" % (self.primaryColor, title[:1], title[1:])
-            print(newTitle)
             self.content.append(Paragraph(newTitle, self.styles["Heading 3"]))
         self.content.append(Bookmark(title, depth))
         
 
     def add_plain_text(self, text):
-        self.content.append(Paragraph(text, self.styles["Normal"]))
+        if text == "":
+            self.content.append(Spacer(0, 12))
+        else:
+            self.content.append(Paragraph(text, self.styles["Normal"]))
