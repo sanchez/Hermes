@@ -40,6 +40,11 @@ class Handler:
             textColor="#000",
             spaceAfter=4
         ))
+        self.styles.add(ParagraphStyle(
+            "Table Heading",
+            parent=self.styles["Heading 2"],
+            fontSize=12
+        ))
 
     def save(self):
         self.c.build(self.content, onFirstPage=self.add_header_footer, onLaterPages=self.add_header_footer)
@@ -88,19 +93,27 @@ class Handler:
         
     def add_table(self, headerRow, tableData):
         data = []
+        style = [
+            ('GRID', (0,0), (-1,-1), 1, colors.grey),
+            ('VALIGN', (0,0), (-1,-1), 'TOP')
+        ]
         if headerRow != None:
             data.append([])
             for header in headerRow:
-                data[0].append(Paragraph(header, self.styles["Normal"]))
+                data[0].append(Paragraph(header, self.styles["Table Heading"]))
+        rowCount = 0
         for row in tableData:
             newRow = []
             for column in row:
                 newRow.append(Paragraph(column, self.styles["Normal"]))
             data.append(newRow)
-        t = Table(data, style=[
-            ('GRID', (0,0), (-1,-1), 0.5, colors.black),
-            ('VALIGN', (0,0), (-1,-1), 'TOP')
-        ])
+            rowCount += 1
+            if (rowCount % 2):
+                style.append(
+                    ('BACKGROUND', (0,rowCount), (-1,rowCount), colors.lightgrey)
+                )
+        print(style)
+        t = Table(data, style=style)
         self.content.append(t)
 
     def add_plain_text(self, text):
