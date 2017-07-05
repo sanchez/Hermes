@@ -1,7 +1,8 @@
 from reportlab.pdfgen import canvas
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.colors import HexColor
+from reportlab.lib import colors
 from support import Bookmark
 
 class Handler:
@@ -84,6 +85,23 @@ class Handler:
                 parent=self.styles["Bullet"],
                 leftIndent=listIndent
             )))
+        
+    def add_table(self, headerRow, tableData):
+        data = []
+        if headerRow != None:
+            data.append([])
+            for header in headerRow:
+                data[0].append(Paragraph(header, self.styles["Normal"]))
+        for row in tableData:
+            newRow = []
+            for column in row:
+                newRow.append(Paragraph(column, self.styles["Normal"]))
+            data.append(newRow)
+        t = Table(data, style=[
+            ('GRID', (0,0), (-1,-1), 0.5, colors.black),
+            ('VALIGN', (0,0), (-1,-1), 'TOP')
+        ])
+        self.content.append(t)
 
     def add_plain_text(self, text):
         if text == "":

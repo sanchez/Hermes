@@ -40,6 +40,8 @@ class Parser:
     re_italics = re.compile(r"\*(\w+)\*")
     re_bullet_item = re.compile(r"^(.*)[-\.\*] (.+)$")
     re_num_item = re.compile(r"^(.*)\d+[\)\.] (.+)$")
+    re_table_row = re.compile(r"\|\s([^\|]*)")
+    re_table_line = re.compile(r"^(?:\|\s-*\s){1,}\|$")
 
     def __init__(self, sourceFile):
         print("Reading from file: %s" % sourceFile)
@@ -66,7 +68,8 @@ class Parser:
                 self.process_list()
             elif re.search(self.re_bullet_item, line):
                 self.process_bullet()
-            
+            elif re.search(self.re_table_row, line):
+                self.process_table()
             else:
                 self.process_plain_text()
 
@@ -112,6 +115,24 @@ class Parser:
             indices[listDepth] += 1
             lastDepth = listDepth
         self.docHandler.add_list(listCache)
+
+    def process_table(self):
+        headerRow = re.findall(self.re_table_row, self.lines.get())
+        tableData = []
+        if not re.search(self.re_table_line, self.lines.peek()):
+            tableData.append(headerRow)
+            headerRow = None
+            result = re.findall(self.re_table_row, self.lines.peek())
+            if result != None:
+                tableData.append(result)
+        self.lines.get()
+        while self.lines.peek() != None:
+            result = re.findall(self.re_table_row, self.lines.peek())
+            if not result:
+                break
+            self.lines.get()
+            tableData.append(result)
+        self.docHandler.add_table(headerRow, tableData)
 
     def process_plain_text(self):
         self.docHandler.add_plain_text(self.lines.get())
