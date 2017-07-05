@@ -104,7 +104,7 @@ class Handler:
     def add_table(self, headerRow, tableData, caption):
         data = []
         style = [
-            ('GRID', (0,0), (-1,-1), 1, colors.grey),
+            # ('GRID', (0,0), (-1,-1), 1, colors.grey),
             ('VALIGN', (0,0), (-1,-1), 'TOP')
         ]
         if headerRow != None:
