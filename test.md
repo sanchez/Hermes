@@ -16,3 +16,11 @@ This is testing out the **bold** feature, **twice** in one row! *Italics* are al
 - Item 3
     - Item 3.1
     - Item 3.2
+
+1. Item Num 1
+1. Item 2
+    1. Hello
+    1. Hey
+1. Test
+    1. Hope this
+        1. Works

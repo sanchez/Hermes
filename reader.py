@@ -62,10 +62,11 @@ class Parser:
             line = self.lines.peek()
             if re.search(self.re_heading, line):
                 self.process_header()
-            elif re.search(self.re_bullet_item, line):
-                self.process_bullet()
             elif re.search(self.re_num_item, line):
                 self.process_list()
+            elif re.search(self.re_bullet_item, line):
+                self.process_bullet()
+            
             else:
                 self.process_plain_text()
 
@@ -103,7 +104,7 @@ class Parser:
             if not result:
                 break
             self.lines.get()
-            listDepth = len(result.group(1)) / 4
+            listDepth = int(len(result.group(1)) / 4)
             if listDepth > lastDepth:
                 indices[listDepth] = 1
             listText = result.group(2)
