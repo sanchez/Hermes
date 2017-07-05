@@ -74,6 +74,9 @@ class Handler:
             leftIndent=bulletIndent
         )))
 
+    def add_list(self, text, depth):
+        pass
+
     def add_plain_text(self, text):
         if text == "":
             self.content.append(Spacer(0, 12))
