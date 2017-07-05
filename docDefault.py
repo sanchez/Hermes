@@ -4,11 +4,13 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.pagesizes import A4
 from support import Bookmark
 
 class Handler:
     def __init__(self, destName):
-        self.c = SimpleDocTemplate(destName, bottomup=0)
+        self.c = SimpleDocTemplate(destName, bottomup=0, pagesize=A4,
+            topMargin=30, bottomMargin=30, leftMargin=40, rightMargin=40)
         self.destName = destName
 
         self.content = []
