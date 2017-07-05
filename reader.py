@@ -83,16 +83,34 @@ class Parser:
         self.docHandler.add_heading(headingTitle, headingDepth, headingOptions)
     
     def process_bullet(self):
-        result = re.search(self.re_bullet_item, self.lines.get())
-        bulletDepth = len(result.group(1)) / 4
-        bulletText = result.group(2)
-        self.docHandler.add_bullet(bulletText, bulletDepth)
+        listCache = []
+        while self.lines.peek() != None:
+            result = re.search(self.re_bullet_item, self.lines.peek())
+            if not result:
+                break
+            self.lines.get()
+            bulletDepth = len(result.group(1)) / 4
+            bulletText = result.group(2)
+            listCache.append((bulletText, bulletDepth))
+        self.docHandler.add_bullet(listCache)
 
     def process_list(self):
-        result = re.search(self.re_num_item, self.lines.get())
-        listDepth = len(result.group(1)) / 4
-        listText = result.group(2)
-        self.docHandler.add_list(listText, listDepth)
+        listCache = []
+        indices = [1,1,1,1,1,1,1,1,1,1,1]
+        lastDepth = 0
+        while self.lines.peek() != None:
+            result = re.search(self.re_num_item, self.lines.peek())
+            if not result:
+                break
+            self.lines.get()
+            listDepth = len(result.group(1)) / 4
+            if listDepth > lastDepth:
+                indices[listDepth] = 1
+            listText = result.group(2)
+            listCache.append((listText, listDepth, indices[listDepth]))
+            indices[listDepth] += 1
+            lastDepth = listDepth
+        self.docHandler.add_list(listCache)
 
     def process_plain_text(self):
         self.docHandler.add_plain_text(self.lines.get())
