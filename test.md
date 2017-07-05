@@ -30,3 +30,4 @@ This is testing out the **bold** feature, **twice** in one row! *Italics* are al
 | Some data | Goes | Here |
 | And | This | Is on a new line |
 | Now | I | want to test what happens when we get a really long line. Hopefully this should just wrap around and start on the next line in the same cell |
+: Caption should go here

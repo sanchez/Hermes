@@ -3,6 +3,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Tabl
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
 from support import Bookmark
 
 class Handler:
@@ -13,6 +14,7 @@ class Handler:
         self.content = []
         self.styles = getSampleStyleSheet()
         self.primaryColor = "#0B75CB"
+        self.tableCount = 1
 
         self.styles.add(ParagraphStyle(
             "Heading 1",
@@ -44,6 +46,12 @@ class Handler:
             "Table Heading",
             parent=self.styles["Heading 2"],
             fontSize=12
+        ))
+        self.styles.add(ParagraphStyle(
+            "Caption",
+            parent=self.styles["Normal"],
+            alignment=TA_CENTER,
+            fontName="Helvetica-Oblique"
         ))
 
     def save(self):
@@ -91,7 +99,7 @@ class Handler:
                 leftIndent=listIndent
             )))
         
-    def add_table(self, headerRow, tableData):
+    def add_table(self, headerRow, tableData, caption):
         data = []
         style = [
             ('GRID', (0,0), (-1,-1), 1, colors.grey),
@@ -115,6 +123,11 @@ class Handler:
         print(style)
         t = Table(data, style=style)
         self.content.append(t)
+        if caption:
+            self.content.append(Spacer(0, 6))
+            self.content.append(Paragraph(
+                    "Figure %d: %s" % (self.tableCount, caption), 
+                self.styles["Caption"]))
 
     def add_plain_text(self, text):
         if text == "":

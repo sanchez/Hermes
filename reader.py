@@ -42,6 +42,7 @@ class Parser:
     re_num_item = re.compile(r"^(.*)\d+[\)\.] (.+)$")
     re_table_row = re.compile(r"\|\s([^\|]*)")
     re_table_line = re.compile(r"^(?:\|\s-*\s){1,}\|$")
+    re_table_caption = re.compile(r"^:\s(.+)$")
 
     def __init__(self, sourceFile):
         print("Reading from file: %s" % sourceFile)
@@ -119,6 +120,7 @@ class Parser:
     def process_table(self):
         headerRow = re.findall(self.re_table_row, self.lines.get())
         tableData = []
+        captionData = None
         if not re.search(self.re_table_line, self.lines.peek()):
             tableData.append(headerRow)
             headerRow = None
@@ -127,12 +129,17 @@ class Parser:
                 tableData.append(result)
         self.lines.get()
         while self.lines.peek() != None:
+            caption = re.search(self.re_table_caption, self.lines.peek())
+            if caption:
+                captionData = caption.group(1)
+                self.lines.get()
+                break
             result = re.findall(self.re_table_row, self.lines.peek())
             if not result:
                 break
             self.lines.get()
             tableData.append(result)
-        self.docHandler.add_table(headerRow, tableData)
+        self.docHandler.add_table(headerRow, tableData, captionData)
 
     def process_plain_text(self):
         self.docHandler.add_plain_text(self.lines.get())
