@@ -5,7 +5,7 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
-from support import Bookmark
+from support import Bookmark, BlockQuote
 
 class Handler:
     def __init__(self, destName):
@@ -54,6 +54,12 @@ class Handler:
             parent=self.styles["Normal"],
             alignment=TA_CENTER,
             fontName="Helvetica-Oblique"
+        ))
+        self.styles.add(ParagraphStyle(
+            "Block",
+            parent=self.styles["Normal"],
+            textColor=colors.grey,
+            leftIndent=10
         ))
 
     def save(self):
@@ -130,6 +136,9 @@ class Handler:
             self.content.append(Paragraph(
                     "Figure %d: %s" % (self.tableCount, caption), 
                 self.styles["Caption"]))
+    
+    def add_blockquote(self, text):
+        self.content.append(BlockQuote(text, self.styles["Block"]))
 
     def add_plain_text(self, text):
         if text == "":
