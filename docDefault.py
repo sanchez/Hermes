@@ -1,5 +1,5 @@
 from reportlab.pdfgen import canvas
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, XPreformatted
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
@@ -61,6 +61,14 @@ class Handler:
             textColor=colors.grey,
             leftIndent=10
         ))
+        self.styles.add(ParagraphStyle(
+            "Code Block",
+            parent=self.styles["Normal"],
+            backColor=colors.lightgrey,
+            leftIndent=10,
+            borderPadding=4,
+            fontName="Courier-Bold"
+        ))
 
     def save(self):
         self.c.build(self.content, onFirstPage=self.add_header_footer, onLaterPages=self.add_header_footer)
@@ -77,7 +85,7 @@ class Handler:
         return "<i>%s</i>" % matchobj.group(1)
 
     def add_code_inline(self, matchobj):
-        return "<font name='courier' bgcolor='lightgrey'>%s</font>" % matchobj.group(1)
+        return "<font name='courier' bgcolor='lightgrey'><b>%s</b></font>" % matchobj.group(1)
 
     def add_heading(self, title, depth, options):
         if depth == 1:
@@ -156,6 +164,10 @@ class Handler:
             parent=self.styles["Bullet"],
             leftIndent=indent
         )))
+
+    def add_code(self, codeCache):
+        text = "\n".join(codeCache)
+        self.content.append(XPreformatted(text, self.styles["Code Block"]))
 
     def add_plain_text(self, text):
         if text == "":

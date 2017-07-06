@@ -9,7 +9,8 @@ class FileReader:
         self.fileContents = self.file.read().split("\n")
         self.linePos = 0
         for i in range(len(self.fileContents)):
-            self.fileContents[i].strip()
+            # self.fileContents[i].strip()
+            pass
 
     def peek(self):
         if self.linePos < len(self.fileContents):
@@ -38,6 +39,7 @@ class Parser:
     re_bold = re.compile(r"\*{2}([^\*]+)\*{2}")
     re_italics = re.compile(r"(?:\*|_)([^\*]+)(?:\*|_)")
     re_code_inline = re.compile(r"\`(.+)\`")
+    re_code_block = re.compile(r"^```$")
     re_bullet_item = re.compile(r"^(\s*)[-\.\*] (.+)$")
     re_num_item = re.compile(r"^(\s*)\d+[\)\.] (.+)$")
     re_table_row = re.compile(r"\|\s([^\|]*)")
@@ -78,6 +80,8 @@ class Parser:
                 self.process_blockquote()
             elif re.search(self.re_checklist, line):
                 self.process_checklist()
+            elif re.search(self.re_code_block, line):
+                self.process_code()
             else:
                 self.process_plain_text()
 
@@ -88,6 +92,8 @@ class Parser:
         return re.sub(self.re_italics, self.docHandler.add_italics, line)
 
     def process_code_inline(self, line):
+        if re.search(self.re_code_block, line):
+            return line
         return re.sub(self.re_code_inline, self.docHandler.add_code_inline, line)
 
     def process_header(self):
@@ -150,6 +156,17 @@ class Parser:
             self.lines.get()
             tableData.append(result)
         self.docHandler.add_table(headerRow, tableData, captionData)
+
+    def process_code(self):
+        codeCache = []
+        firstLine = re.search(self.re_code_block, self.lines.get())
+        while self.lines.peek() != None:
+            result = re.search(self.re_code_block, self.lines.peek())
+            if result:
+                self.lines.get()
+                break
+            codeCache.append(self.lines.get())
+        self.docHandler.add_code(codeCache)
 
     def process_blockquote(self):
         text = re.search(self.re_blockquote, self.lines.get())
