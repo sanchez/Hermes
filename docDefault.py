@@ -76,6 +76,9 @@ class Handler:
     def add_italics(self, matchobj):
         return "<i>%s</i>" % matchobj.group(1)
 
+    def add_code_inline(self, matchobj):
+        return "<font name='courier' bgcolor='lightgrey'>%s</font>" % matchobj.group(1)
+
     def add_heading(self, title, depth, options):
         if depth == 1:
             self.content.append(Paragraph(title, self.styles["Heading 1"]))

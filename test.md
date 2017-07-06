@@ -42,3 +42,9 @@ And some other text right here
 [] Checklist 2
 [-] Checked 1
 [] Checklist 3
+
+This is to test out the inline code blocks feature. `This should` be blocked and the following:
+```
+def function():
+    Hello()
+```

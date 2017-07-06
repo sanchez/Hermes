@@ -37,6 +37,7 @@ class Parser:
     re_heading = re.compile(r"^(#{1,6})(\{(.+)\})? (.+)$")
     re_bold = re.compile(r"\*{2}(\w+)\*{2}")
     re_italics = re.compile(r"\*(\w+)\*")
+    re_code_inline = re.compile(r"\`(.+)\`")
     re_bullet_item = re.compile(r"^(\s*)[-\.\*] (.+)$")
     re_num_item = re.compile(r"^(\s*)\d+[\)\.] (.+)$")
     re_table_row = re.compile(r"\|\s([^\|]*)")
@@ -56,6 +57,7 @@ class Parser:
     def process_file(self):
         while self.lines.peek() != None:
             line = self.lines.peek()
+            line = self.process_code_inline(line)
             line = self.process_bold(line)
             line = self.process_italics(line)
             self.lines.assign(line)
@@ -84,6 +86,9 @@ class Parser:
 
     def process_italics(self, line):
         return re.sub(self.re_italics, self.docHandler.add_italics, line)
+
+    def process_code_inline(self, line):
+        return re.sub(self.re_code_inline, self.docHandler.add_code_inline, line)
 
     def process_header(self):
         result = re.search(self.re_heading, self.lines.get())
