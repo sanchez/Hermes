@@ -19,7 +19,6 @@ class FileReader:
 
     def get(self):
         if self.linePos < len(self.fileContents):
-            print("Get: %d:%s" % (self.linePos, self.fileContents[self.linePos]))
             line = self.fileContents[self.linePos]
             self.linePos += 1
             return line

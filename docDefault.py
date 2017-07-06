@@ -128,7 +128,6 @@ class Handler:
                 style.append(
                     ('BACKGROUND', (0,rowCount), (-1,rowCount), colors.lightgrey)
                 )
-        print(style)
         t = Table(data, style=style)
         self.content.append(t)
         if caption:
