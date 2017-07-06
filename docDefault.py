@@ -140,6 +140,16 @@ class Handler:
     def add_blockquote(self, text):
         self.content.append(BlockQuote(text, self.styles["Block"]))
 
+    def add_checklist(self, checked, text):
+        uncheckChar = u"\u274F\u2001"
+        checkedChar = u"\u2713\u2001"
+        totalText = ""
+        if checked:
+            totalText = checkedChar + text
+        else:
+            totalText = uncheckChar + text
+        self.content.append(Paragraph(totalText, self.styles["Normal"]))
+
     def add_plain_text(self, text):
         if text == "":
             self.content.append(Spacer(0, 12))

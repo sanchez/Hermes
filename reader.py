@@ -44,6 +44,7 @@ class Parser:
     re_table_line = re.compile(r"^(?:\|\s-*\s){1,}\|$")
     re_table_caption = re.compile(r"^:\s(.+)$")
     re_blockquote = re.compile(r"^> (.+)$")
+    re_checklist = re.compile(r"^\[(-?)\] (.+)$")
 
     def __init__(self, sourceFile):
         print("Reading from file: %s" % sourceFile)
@@ -74,6 +75,8 @@ class Parser:
                 self.process_table()
             elif re.search(self.re_blockquote, line):
                 self.process_blockquote()
+            elif re.search(self.re_checklist, line):
+                self.process_checklist()
             else:
                 self.process_plain_text()
 
@@ -147,6 +150,12 @@ class Parser:
     def process_blockquote(self):
         text = re.search(self.re_blockquote, self.lines.get())
         self.docHandler.add_blockquote(text.group(1))
+
+    def process_checklist(self):
+        checklist = re.search(self.re_checklist, self.lines.get())
+        checked = len(checklist.group(1)) == 1
+        text = checklist.group(2)
+        self.docHandler.add_checklist(checked, text)
 
     def process_plain_text(self):
         self.docHandler.add_plain_text(self.lines.get())

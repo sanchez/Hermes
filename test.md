@@ -36,3 +36,8 @@ Something here
 > Second line
 > And this one should wrap for a really really really long line, I honestly don't know what else to right other than come on already
 And some other text right here
+
+[] Checklist 1
+[] Checklist 2
+[-] Checked 1
+[] Checklist 3
