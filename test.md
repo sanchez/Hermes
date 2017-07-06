@@ -48,3 +48,5 @@ This is to test out the inline code blocks feature. `This should` be blocked and
 def function():
     Hello()
 ```
+
+Checking to see if **bold supports multiple** words. How about **bold _with_ Italics**

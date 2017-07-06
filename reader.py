@@ -35,8 +35,8 @@ class FileReader:
 class Parser:
 
     re_heading = re.compile(r"^(#{1,6})(\{(.+)\})? (.+)$")
-    re_bold = re.compile(r"\*{2}(\w+)\*{2}")
-    re_italics = re.compile(r"\*(\w+)\*")
+    re_bold = re.compile(r"\*{2}([^\*]+)\*{2}")
+    re_italics = re.compile(r"(?:\*|_)([^\*]+)(?:\*|_)")
     re_code_inline = re.compile(r"\`(.+)\`")
     re_bullet_item = re.compile(r"^(\s*)[-\.\*] (.+)$")
     re_num_item = re.compile(r"^(\s*)\d+[\)\.] (.+)$")
