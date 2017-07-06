@@ -37,13 +37,13 @@ class Parser:
     re_heading = re.compile(r"^(#{1,6})(\{(.+)\})? (.+)$")
     re_bold = re.compile(r"\*{2}(\w+)\*{2}")
     re_italics = re.compile(r"\*(\w+)\*")
-    re_bullet_item = re.compile(r"^(.*)[-\.\*] (.+)$")
-    re_num_item = re.compile(r"^(.*)\d+[\)\.] (.+)$")
+    re_bullet_item = re.compile(r"^(\s*)[-\.\*] (.+)$")
+    re_num_item = re.compile(r"^(\s*)\d+[\)\.] (.+)$")
     re_table_row = re.compile(r"\|\s([^\|]*)")
     re_table_line = re.compile(r"^(?:\|\s-*\s){1,}\|$")
     re_table_caption = re.compile(r"^:\s(.+)$")
     re_blockquote = re.compile(r"^> (.+)$")
-    re_checklist = re.compile(r"^\[(-?)\] (.+)$")
+    re_checklist = re.compile(r"^(\s*)\[(-?)\] (.+)$")
 
     def __init__(self, sourceFile):
         print("Reading from file: %s" % sourceFile)
@@ -152,9 +152,10 @@ class Parser:
 
     def process_checklist(self):
         checklist = re.search(self.re_checklist, self.lines.get())
-        checked = len(checklist.group(1)) == 1
-        text = checklist.group(2)
-        self.docHandler.add_checklist(checked, text)
+        depth = len(checklist.group(1)) / 4
+        checked = len(checklist.group(2)) == 1
+        text = checklist.group(3)
+        self.docHandler.add_checklist(checked, text, depth)
 
     def process_plain_text(self):
         self.docHandler.add_plain_text(self.lines.get())

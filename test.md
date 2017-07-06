@@ -38,6 +38,7 @@ Something here
 And some other text right here
 
 [] Checklist 1
+    [] Checklist deep 1
 [] Checklist 2
 [-] Checked 1
 [] Checklist 3

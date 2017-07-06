@@ -139,7 +139,7 @@ class Handler:
     def add_blockquote(self, text):
         self.content.append(BlockQuote(text, self.styles["Block"]))
 
-    def add_checklist(self, checked, text):
+    def add_checklist(self, checked, text, depth):
         uncheckChar = u"\u274F\u2001"
         checkedChar = u"\u2713\u2001"
         totalText = ""
@@ -147,7 +147,12 @@ class Handler:
             totalText = checkedChar + text
         else:
             totalText = uncheckChar + text
-        self.content.append(Paragraph(totalText, self.styles["Normal"]))
+        indent = depth * 10 + 5
+        self.content.append(Paragraph(totalText, ParagraphStyle(
+            "Checklist",
+            parent=self.styles["Bullet"],
+            leftIndent=indent
+        )))
 
     def add_plain_text(self, text):
         if text == "":
