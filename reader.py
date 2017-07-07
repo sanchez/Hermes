@@ -47,11 +47,14 @@ class Parser:
     re_table_caption = re.compile(r"^:\s(.+)$")
     re_blockquote = re.compile(r"^> (.+)$")
     re_checklist = re.compile(r"^(\s*)\[(-?)\] (.+)$")
+    re_config_block = re.compile(r"^---$")
+    re_config_line = re.compile(r"^(.+):\s?(.+)$")
 
     def __init__(self, sourceFile):
         print("Reading from file: %s" % sourceFile)
         self.lines = FileReader(sourceFile)
         self.docHandler = Handler("test.pdf")
+        self.config = {}
 
         self.process_file()
         self.docHandler.save()
@@ -65,6 +68,9 @@ class Parser:
             self.lines.assign(line)
             self.lines.get()
         self.lines.reset()
+
+        if re.search(self.re_config_block, self.lines.peek()):
+            self.process_config()
 
         while self.lines.peek() != None:
             line = self.lines.peek()
@@ -95,6 +101,19 @@ class Parser:
         if re.search(self.re_code_block, line):
             return line
         return re.sub(self.re_code_inline, self.docHandler.add_code_inline, line)
+
+    def process_config(self):
+        self.lines.get()
+        configCache = {}
+        while self.lines.peek() != None:
+            result = re.search(self.re_config_line, self.lines.get())
+            if not result:
+                break
+            configKey = result.group(1)
+            configValue = result.group(2)
+            configCache[configKey] = configValue
+        self.config = configCache
+        self.docHandler.set_config(self.config)
 
     def process_header(self):
         result = re.search(self.re_heading, self.lines.get())

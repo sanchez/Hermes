@@ -17,6 +17,7 @@ class Handler:
         self.styles = getSampleStyleSheet()
         self.primaryColor = "#0B75CB"
         self.tableCount = 1
+        self.config = {}
 
         self.styles.add(ParagraphStyle(
             "Heading 1",
@@ -70,12 +71,19 @@ class Handler:
             fontName="Courier-Bold"
         ))
 
+    def set_config(self, config):
+        self.config = config
+
     def save(self):
         self.c.build(self.content, onFirstPage=self.add_header_footer, onLaterPages=self.add_header_footer)
 
     def add_header_footer(self, canv, doc):
-        canv.setAuthor("Hermes (Daniel Fitz")
-        canv.setTitle(self.destName)
+        if self.config["author"]:
+            canv.setAuthor(self.config["author"])
+        else:
+            canv.setAuthor("Hermes")
+        if self.config["title"]:
+            canv.setTitle(self.config["title"])
         canv.setFont('Helvetica', 12)
         
     def add_bold(self, matchobj):
@@ -132,7 +140,8 @@ class Handler:
         for row in tableData:
             newRow = []
             for column in row:
-                newRow.append(Paragraph(column, self.styles["Normal"]))
+                p = Paragraph(column, self.styles["Normal"])
+                newRow.append(p)
             data.append(newRow)
             rowCount += 1
             if (rowCount % 2):
