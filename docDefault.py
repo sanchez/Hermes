@@ -68,6 +68,8 @@ class Handler:
             backColor=colors.lightgrey,
             leftIndent=10,
             borderPadding=4,
+            spaceBefore=6,
+            spaceAfter=4,
             fontName="Courier-Bold"
         ))
 
