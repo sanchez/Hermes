@@ -50,7 +50,25 @@ And some other text right here
 
 This is to test out the inline code blocks feature. `This should` be blocked and the following:
 ```
-def function():
-    Hello()
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
 ```
 Checking to see if **bold supports multiple** words. How about **bold _with_ Italics**

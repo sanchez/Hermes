@@ -5,7 +5,7 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
-from support import Bookmark, BlockQuote
+from support import Bookmark, BlockQuote, CodeBlock
 
 class Handler:
     def __init__(self, destName):
@@ -65,11 +65,7 @@ class Handler:
         self.styles.add(ParagraphStyle(
             "Code Block",
             parent=self.styles["Normal"],
-            backColor=colors.lightgrey,
-            leftIndent=10,
-            borderPadding=4,
-            spaceBefore=6,
-            spaceAfter=4,
+            leftIndent=30,
             fontName="Courier-Bold"
         ))
 
@@ -178,7 +174,7 @@ class Handler:
 
     def add_code(self, codeCache):
         text = "\n".join(codeCache)
-        self.content.append(XPreformatted(text, self.styles["Code Block"]))
+        self.content.append(CodeBlock(text, self.styles["Code Block"]))
 
     def add_plain_text(self, text):
         if text == "":

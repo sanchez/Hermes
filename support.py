@@ -1,4 +1,4 @@
-from reportlab.platypus import (Flowable, Paragraph, SimpleDocTemplate, Spacer)
+from reportlab.platypus import (Flowable, Paragraph, SimpleDocTemplate, Spacer, XPreformatted)
 from reportlab.lib import colors
 
 def get_key():
@@ -36,3 +36,27 @@ class BlockQuote(Flowable):
 
         self.canv.setStrokeColor(colors.grey)
         self.canv.line(0, -1, 0, self.height - 1)
+
+class CodeBlock(Flowable):
+    def __init__(self, text, style):
+        Flowable.__init__(self)
+        self.p = XPreformatted(text, style)
+        width, height = self.p.wrap(450, 0)
+        self.height = height
+        self.lines = height / (style.fontSize + 2)
+        print(self.lines)
+        print(height)
+        print(style.fontSize)
+
+    def draw(self):
+        self.p.drawOn(self.canv, 0, 0)
+
+        self.canv.setStrokeColor(colors.black)
+        self.canv.line(24, -1, 24, self.height - 1)
+        for i in range(1, int(self.lines + 1)):
+            xPos = 12
+            if i > 99:
+                xPos = 0
+            elif i > 9:
+                xPos = 6
+            self.canv.drawString(xPos, (self.lines - i) * 12, str(i))
