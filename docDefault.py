@@ -10,7 +10,7 @@ from support import Bookmark, BlockQuote, CodeBlock
 class Handler:
     def __init__(self, destName):
         self.c = SimpleDocTemplate(destName, bottomup=0, pagesize=A4,
-            topMargin=30, bottomMargin=30, leftMargin=40, rightMargin=40)
+            topMargin=40, bottomMargin=40, leftMargin=40, rightMargin=40)
         self.destName = destName
 
         self.content = []
@@ -83,6 +83,15 @@ class Handler:
         if self.config["title"]:
             canv.setTitle(self.config["title"])
         canv.setFont('Helvetica', 12)
+
+        pageNum = canv.getPageNumber()
+        canv.drawString(A4[0] - 100, 27, "Page %d" % pageNum)
+        canv.drawString(50, 27, self.config["title"])
+        canv.drawCentredString(A4[0]/2, 27, self.config["author"])
+
+        canv.setStrokeColor(colors.black)
+        canv.line(40, 40, A4[0] - 40, 40)
+        canv.line(40, A4[1] - 40, A4[0] - 40, A4[1] - 40)
         
     def add_bold(self, matchobj):
         return "<b>%s</b>" % matchobj.group(1)

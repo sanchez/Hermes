@@ -33,3 +33,4 @@ Where `filename.md` is the location of the file. At the current point in time, t
 [-] Code Blocks
 [] Add wiki pages for how to create custom templates
 [] Add wiki pages for markdown
+[-] Header and footer
