@@ -44,9 +44,6 @@ class CodeBlock(Flowable):
         width, height = self.p.wrap(450, 0)
         self.height = height
         self.lines = height / (style.fontSize + 2)
-        print(self.lines)
-        print(height)
-        print(style.fontSize)
 
     def draw(self):
         self.p.drawOn(self.canv, 0, 0)
