@@ -18,7 +18,7 @@ Where `filename.md` is the location of the file. At the current point in time, t
 [] Internal Links
 [] Title Page
 [] TOC
-[] Opening document options
+[-] Opening document options
 [] Load external files
 [] Images
 [-] Number Points
@@ -29,7 +29,7 @@ Where `filename.md` is the location of the file. At the current point in time, t
 [-] Checklist
 [-] Bold
 [-] Italics
-[] Inline Code Blocks
-[] Code Blocks
+[-] Inline Code Blocks
+[-] Code Blocks
 [] Add wiki pages for how to create custom templates
 [] Add wiki pages for markdown
