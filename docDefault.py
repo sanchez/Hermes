@@ -84,12 +84,13 @@ class Handler:
             canv.setTitle(self.config["title"])
         canv.setFont('Helvetica', 12)
 
+        canv.setStrokeColor(colors.grey)
+        canv.setFillColor(colors.grey)
         pageNum = canv.getPageNumber()
         canv.drawString(A4[0] - 100, 27, "Page %d" % pageNum)
         canv.drawString(50, 27, self.config["title"])
         canv.drawCentredString(A4[0]/2, 27, self.config["author"])
 
-        canv.setStrokeColor(colors.black)
         canv.line(40, 40, A4[0] - 40, 40)
         canv.line(40, A4[1] - 40, A4[0] - 40, A4[1] - 40)
         
