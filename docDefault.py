@@ -8,6 +8,16 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from support import Bookmark, BlockQuote, CodeBlock
 
+class ListOfFigures(TableOfContents):
+    def notify(self, kind, stuff):
+        if kind == 'TOCFigure':
+            self.addEntry(*stuff)
+
+class ListOfTables(TableOfContents):
+    def notify(self, kind, stuff):
+        if kind == 'TOCTable':
+            self.addEntry(*stuff)
+
 class MyDocTemplate(SimpleDocTemplate):
     def afterFlowable(self, flowable):
         if flowable.__class__.__name__ == "Paragraph":
@@ -19,6 +29,10 @@ class MyDocTemplate(SimpleDocTemplate):
                 self.notify("TOCEntry", (1, text, self.page, "B2%s" % text))
             elif style == "Heading 3":
                 self.notify("TOCEntry", (2, text, self.page, "B3%s" % text))
+            elif style == "TCaption":
+                self.notify("TOCTable", (0, text, self.page))
+            elif style == "FCaption":
+                self.notify("TOCFigure", (0, text, self.page))
 
 class Handler:
     def __init__(self, destName):
@@ -73,6 +87,14 @@ class Handler:
             parent=self.styles["Normal"],
             alignment=TA_CENTER,
             fontName="Helvetica-Oblique"
+        ))
+        self.styles.add(ParagraphStyle(
+            "TCaption",
+            parent=self.styles["Caption"]
+        ))
+        self.styles.add(ParagraphStyle(
+            "FCaption",
+            parent=self.styles["Caption"]
         ))
         self.styles.add(ParagraphStyle(
             "Block",
@@ -181,8 +203,8 @@ class Handler:
         if caption:
             self.content.append(Spacer(0, 6))
             self.content.append(Paragraph(
-                    "Figure %d: %s" % (self.tableCount, caption), 
-                self.styles["Caption"]))
+                    "Table %d: %s" % (self.tableCount, caption), 
+                self.styles["TCaption"]))
     
     def add_blockquote(self, text):
         self.content.append(BlockQuote(text, self.styles["Block"]))
@@ -213,18 +235,27 @@ class Handler:
         self.content.append(Image(location))
         if caption:
             self.content.append(Paragraph(
-                "Figure %d: %s" % (self.figureCount, caption), self.styles["Caption"]))
+                "Figure %d: %s" % (self.figureCount, caption), self.styles["FCaption"]))
 
     def add_toc(self):
         self.tableOfContents = TableOfContents()
         self.content.append(Paragraph("Table of Contents", self.styles["Heading"]))
         self.content.append(self.tableOfContents)
         self.tableOfContents.dotsMinLevel = 5
-        self.tableOfContents.levelStyles = [
+        style = [
             ParagraphStyle(name="TOCH1", textColor=self.primaryColor, fontName="Helvetica-Bold"),
             ParagraphStyle(name="TOCH2", fontName="Helvetica-Bold", leftIndent=12, endDots=""),
             ParagraphStyle(name="TOCH3", fontName="Helvetica-Bold", leftIndent=24)
         ]
+        self.tableOfContents.levelStyles = style
+        tocTable = ListOfTables()
+        tocTable.levelStyles = style
+        self.content.append(Paragraph("List of Tables", self.styles["Heading"]))
+        self.content.append(tocTable)
+        tocFig = ListOfFigures()
+        tocFig.levelStyles = style
+        self.content.append(Paragraph("List of Figures", self.styles["Heading"]))
+        self.content.append(tocFig)
 
     def add_plain_text(self, text):
         if text == "":
