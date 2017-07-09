@@ -60,6 +60,10 @@ class Handler:
             spaceAfter=4
         ))
         self.styles.add(ParagraphStyle(
+            "Heading",
+            parent=self.styles["Heading 1"]
+        ))
+        self.styles.add(ParagraphStyle(
             "Table Heading",
             parent=self.styles["Heading 2"],
             fontSize=12
@@ -213,6 +217,7 @@ class Handler:
 
     def add_toc(self):
         self.tableOfContents = TableOfContents()
+        self.content.append(Paragraph("Table of Contents", self.styles["Heading"]))
         self.content.append(self.tableOfContents)
         self.tableOfContents.dotsMinLevel = 5
         self.tableOfContents.levelStyles = [
