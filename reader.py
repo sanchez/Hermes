@@ -52,6 +52,7 @@ class Parser:
     re_newline = re.compile(r"^\\\\$")
     re_image = re.compile(r"^!\[(.+)\]\((.+)\)$")
     re_toc = re.compile(r"^\\toc$")
+    re_comment = re.compile(r"^\\(.+)$")
 
     def __init__(self, sourceFile):
         print("Reading from file: %s" % sourceFile)
@@ -99,6 +100,8 @@ class Parser:
             elif re.search(self.re_toc, line):
                 self.lines.get()
                 self.docHandler.add_toc()
+            elif re.search(self.re_comment, line):
+                self.lines.get()
             else:
                 self.process_plain_text()
 
