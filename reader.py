@@ -50,6 +50,7 @@ class Parser:
     re_config_block = re.compile(r"^---$")
     re_config_line = re.compile(r"^(.+):\s?(.+)$")
     re_newline = re.compile(r"^\\\\$")
+    re_image = re.compile(r"^!\[(.+)\]\((.+)\)$")
 
     def __init__(self, sourceFile):
         print("Reading from file: %s" % sourceFile)
@@ -91,6 +92,8 @@ class Parser:
                 self.process_code()
             elif re.search(self.re_newline, line):
                 self.process_newline()
+            elif re.search(self.re_image, line):
+                self.process_image()
             else:
                 self.process_plain_text()
 
@@ -204,6 +207,12 @@ class Parser:
     def process_newline(self):
         self.lines.get()
         self.docHandler.add_newline()
+
+    def process_image(self):
+        result = re.search(self.re_image, self.lines.get())
+        location = result.group(2)
+        captionData = result.group(1)
+        self.docHandler.add_image(location, captionData)
 
     def process_plain_text(self):
         self.docHandler.add_plain_text(self.lines.get())

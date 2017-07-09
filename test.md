@@ -76,3 +76,5 @@ Checking to see if **bold supports multiple** words. How about **bold _with_ Ita
 This should be the ending of the current page
 \\
 This should be on the new page
+
+![The caption should be here](testImage.png)

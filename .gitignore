@@ -1,3 +1,4 @@
 .hermes/
 *.pdf
 __pycache__/
+*.png

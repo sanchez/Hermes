@@ -17,6 +17,7 @@ class Handler:
         self.styles = getSampleStyleSheet()
         self.primaryColor = "#0B75CB"
         self.tableCount = 1
+        self.figureCount = 1
         self.config = {}
 
         self.styles.add(ParagraphStyle(
@@ -188,6 +189,12 @@ class Handler:
 
     def add_newline(self):
         self.content.append(PageBreak())
+
+    def add_image(self, location, caption):
+        self.content.append(Image(location))
+        if caption:
+            self.content.append(Paragraph(
+                "Figure %d: %s" % (self.figureCount, caption), self.styles["Caption"]))
 
     def add_plain_text(self, text):
         if text == "":
