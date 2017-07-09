@@ -20,12 +20,12 @@ Where `filename.md` is the location of the file. At the current point in time, t
 [] TOC
 [-] Opening document options
 [] Load external files
-[] Images
+[-] Images
 [-] Number Points
 [] Control Output File
 [-] BlockQuotes
 [-] Tables
-[] Captions
+[-] Captions
 [-] Checklist
 [-] Bold
 [-] Italics
