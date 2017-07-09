@@ -11,7 +11,7 @@ class Bookmark(Flowable):
         Flowable.__init__(self)
         self.text = text
         self.depth = depth - 1
-        self.key = "B%d" % get_key()
+        self.key = "B%d%s" % (depth, text)
 
     def __repr__(self):
         return "Bookmark: (%d: %s)" % (self.depth, self.text)

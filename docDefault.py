@@ -1,5 +1,6 @@
 from reportlab.pdfgen import canvas
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, XPreformatted, PageBreak
+from reportlab.platypus.tableofcontents import TableOfContents
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
@@ -7,9 +8,21 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from support import Bookmark, BlockQuote, CodeBlock
 
+class MyDocTemplate(SimpleDocTemplate):
+    def afterFlowable(self, flowable):
+        if flowable.__class__.__name__ == "Paragraph":
+            text = flowable.getPlainText()
+            style = flowable.style.name
+            if style == "Heading 1":
+                self.notify("TOCEntry", (0, text, self.page, "B1%s" % text))
+            elif style == "Heading 2":
+                self.notify("TOCEntry", (1, text, self.page, "B2%s" % text))
+            elif style == "Heading 3":
+                self.notify("TOCEntry", (2, text, self.page, "B3%s" % text))
+
 class Handler:
     def __init__(self, destName):
-        self.c = SimpleDocTemplate(destName, bottomup=0, pagesize=A4,
+        self.c = MyDocTemplate(destName, bottomup=0, pagesize=A4,
             topMargin=40, bottomMargin=40, leftMargin=40, rightMargin=40)
         self.destName = destName
 
@@ -74,7 +87,7 @@ class Handler:
         self.config = config
 
     def save(self):
-        self.c.build(self.content, onFirstPage=self.add_header_footer, onLaterPages=self.add_header_footer)
+        self.c.multiBuild(self.content, onFirstPage=self.add_header_footer, onLaterPages=self.add_header_footer)
 
     def add_header_footer(self, canv, doc):
         if self.config["author"]:
@@ -112,6 +125,8 @@ class Handler:
         elif depth == 3:
             newTitle = "<font color=%s>%s</font><font color=black>%s</font>" % (self.primaryColor, title[:1], title[1:])
             self.content.append(Paragraph(newTitle, self.styles["Heading 3"]))
+        if self.tableOfContents:
+            self.tableOfContents.addEntry(depth, title, 1)
         self.content.append(Bookmark(title, depth))
         
     def add_bullet(self, bullets):
@@ -195,6 +210,16 @@ class Handler:
         if caption:
             self.content.append(Paragraph(
                 "Figure %d: %s" % (self.figureCount, caption), self.styles["Caption"]))
+
+    def add_toc(self):
+        self.tableOfContents = TableOfContents()
+        self.content.append(self.tableOfContents)
+        self.tableOfContents.dotsMinLevel = 5
+        self.tableOfContents.levelStyles = [
+            ParagraphStyle(name="TOCH1", textColor=self.primaryColor, fontName="Helvetica-Bold"),
+            ParagraphStyle(name="TOCH2", fontName="Helvetica-Bold", leftIndent=12, endDots=""),
+            ParagraphStyle(name="TOCH3", fontName="Helvetica-Bold", leftIndent=24)
+        ]
 
     def add_plain_text(self, text):
         if text == "":
