@@ -1,5 +1,5 @@
 from reportlab.pdfgen import canvas
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, XPreformatted
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, XPreformatted, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
@@ -185,6 +185,9 @@ class Handler:
     def add_code(self, codeCache):
         text = "\n".join(codeCache)
         self.content.append(CodeBlock(text, self.styles["Code Block"]))
+
+    def add_newline(self):
+        self.content.append(PageBreak())
 
     def add_plain_text(self, text):
         if text == "":

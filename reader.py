@@ -49,6 +49,7 @@ class Parser:
     re_checklist = re.compile(r"^(\s*)\[(-?)\] (.+)$")
     re_config_block = re.compile(r"^---$")
     re_config_line = re.compile(r"^(.+):\s?(.+)$")
+    re_newline = re.compile(r"^\\\\$")
 
     def __init__(self, sourceFile):
         print("Reading from file: %s" % sourceFile)
@@ -88,6 +89,8 @@ class Parser:
                 self.process_checklist()
             elif re.search(self.re_code_block, line):
                 self.process_code()
+            elif re.search(self.re_newline, line):
+                self.process_newline()
             else:
                 self.process_plain_text()
 
@@ -197,6 +200,10 @@ class Parser:
         checked = len(checklist.group(2)) == 1
         text = checklist.group(3)
         self.docHandler.add_checklist(checked, text, depth)
+    
+    def process_newline(self):
+        self.lines.get()
+        self.docHandler.add_newline()
 
     def process_plain_text(self):
         self.docHandler.add_plain_text(self.lines.get())
