@@ -57,3 +57,7 @@ class CodeBlock(Flowable):
             elif i > 9:
                 xPos = 6
             self.canv.drawString(xPos, (self.lines - i) * 12, str(i))
+
+class ResetPageNum(Flowable):
+    def draw(self):
+        pass

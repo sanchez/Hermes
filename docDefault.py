@@ -6,7 +6,7 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT, TA_LEFT
 from reportlab.lib.pagesizes import A4
-from support import Bookmark, BlockQuote, CodeBlock
+from support import Bookmark, BlockQuote, CodeBlock, ResetPageNum
 
 class ListOfFigures(TableOfContents):
     def notify(self, kind, stuff):
@@ -24,15 +24,17 @@ class MyDocTemplate(SimpleDocTemplate):
             text = flowable.getPlainText()
             style = flowable.style.name
             if style == "Heading 1":
-                self.notify("TOCEntry", (0, text, self.page - 1, "B1%s" % text))
+                self.notify("TOCEntry", (0, text, self.page, "B1%s" % text))
             elif style == "Heading 2":
-                self.notify("TOCEntry", (1, text, self.page - 1, "B2%s" % text))
+                self.notify("TOCEntry", (1, text, self.page, "B2%s" % text))
             elif style == "Heading 3":
-                self.notify("TOCEntry", (2, text, self.page - 1, "B3%s" % text))
+                self.notify("TOCEntry", (2, text, self.page, "B3%s" % text))
             elif style == "TCaption":
-                self.notify("TOCTable", (0, text, self.page - 1))
+                self.notify("TOCTable", (0, text, self.page))
             elif style == "FCaption":
-                self.notify("TOCFigure", (0, text, self.page - 1))
+                self.notify("TOCFigure", (0, text, self.page))
+        elif flowable.__class__.__name__ == "ResetPageNum":
+            self.canv._pageNumber = 0
 
 class Handler:
     def __init__(self, destName):
@@ -118,7 +120,7 @@ class Handler:
     def add_header_footer(self, canv, doc):
         canv.setStrokeColor(colors.grey)
         canv.setFillColor(colors.grey)
-        pageNum = canv.getPageNumber() - 2
+        pageNum = canv.getPageNumber() - 1
         canv.drawString(A4[0] - 100, 27, "Page %d" % pageNum)
         canv.drawString(50, 27, self.config["title"])
         canv.drawCentredString(A4[0]/2, 27, self.config["author"])
@@ -296,6 +298,7 @@ class Handler:
                 "Figure %d: %s" % (self.figureCount, caption), self.styles["FCaption"]))
 
     def add_toc(self):
+        # self.content.append(ResetPageNum())
         self.tableOfContents = TableOfContents()
         self.content.append(Paragraph("Table of Contents", self.styles["Heading"]))
         self.content.append(self.tableOfContents)
