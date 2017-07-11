@@ -127,13 +127,14 @@ class Handler:
         canv.line(40, A4[1] - 40, A4[0] - 40, A4[1] - 40)
 
     def add_title(self, canv, doc):
-        if self.config["author"]:
+        if "author" in self.config:
             canv.setAuthor(self.config["author"])
         else:
             canv.setAuthor("Hermes")
-        if self.config["title"]:
+        if "title" in self.config:
             canv.setTitle(self.config["title"])
 
+        #print(self.config)
         name = self.config["author"].split(" ", 1)
         titleStyle = self.styles["Normal"]
         titleStyle.alignment = TA_CENTER
@@ -179,6 +180,9 @@ class Handler:
         canv.setFont("Helvetica", 12)
         canv.showPage()
         
+    def add_double_dash(self, matchobj):
+        return u"%s\u2013%s" % (matchobj.group(1), matchobj.group(3))
+
     def add_bold(self, matchobj):
         return "<b>%s</b>" % matchobj.group(1)
 

@@ -39,6 +39,7 @@ class Parser:
     re_bold = re.compile(r"\*{2}([^\*]+)\*{2}")
     re_italics = re.compile(r"(?:\*|_)([^\*]+)(?:\*|_)")
     re_code_inline = re.compile(r"\`(.+)\`")
+    re_double_dash = re.compile(r"([^-])(-{2})([^-])")
     re_code_block = re.compile(r"^```$")
     re_bullet_item = re.compile(r"^(\s*)[-\.\*] (.+)$")
     re_num_item = re.compile(r"^(\s*)\d+[\)\.] (.+)$")
@@ -69,6 +70,8 @@ class Parser:
             line = self.process_code_inline(line)
             line = self.process_bold(line)
             line = self.process_italics(line)
+            line = self.process_double_dash(line)
+            #print(line)
             self.lines.assign(line)
             self.lines.get()
         self.lines.reset()
@@ -105,6 +108,9 @@ class Parser:
             else:
                 self.process_plain_text()
 
+    def process_double_dash(self, line):
+        return re.sub(self.re_double_dash, self.docHandler.add_double_dash, line)
+
     def process_bold(self, line):
         return re.sub(self.re_bold, self.docHandler.add_bold, line)
 
@@ -120,6 +126,7 @@ class Parser:
         self.lines.get()
         configCache = {}
         while self.lines.peek() != None:
+            # print(self.lines.peek())
             result = re.search(self.re_config_line, self.lines.get())
             if not result:
                 break
