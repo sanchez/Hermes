@@ -298,7 +298,6 @@ class Handler:
                 "Figure %d: %s" % (self.figureCount, caption), self.styles["FCaption"]))
 
     def add_toc(self):
-        # self.content.append(ResetPageNum())
         self.tableOfContents = TableOfContents()
         self.content.append(Paragraph("Table of Contents", self.styles["Heading"]))
         self.content.append(self.tableOfContents)
