@@ -4,7 +4,7 @@ from reportlab.platypus.tableofcontents import TableOfContents
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_RIGHT
+from reportlab.lib.enums import TA_CENTER, TA_RIGHT, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from support import Bookmark, BlockQuote, CodeBlock
 
@@ -176,9 +176,18 @@ class Handler:
             subject = Paragraph(self.config["subject"], titleStyle)
             subject.wrapOn(canv, A4[0], 0)
             subject.drawOn(canv, 0, 350)
+        
+        titleStyle.alignment = TA_LEFT
 
         canv.setFont("Helvetica", 12)
         canv.showPage()
+
+    def add_color_inline(self, matchobj):
+        color = matchobj.group(1)
+        text = matchobj.group(2)
+        if color == "primary" or color == "":
+            color = self.primaryColor
+        return "<font color='%s'>%s</font>" % (color, text)
         
     def add_double_dash(self, matchobj):
         return u"%s\u2013%s" % (matchobj.group(1), matchobj.group(3))
