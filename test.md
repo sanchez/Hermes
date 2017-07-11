@@ -89,3 +89,4 @@ This should be on the new page
 Some text should go here
 And some should go here without a break
 # Second Heading No Line Space
+Colored text can ~(orange)be applied~ using fancy markdown syntax
