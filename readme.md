@@ -17,7 +17,7 @@ Where `filename.md` is the location of the file. At the current point in time, t
 [-] Bullet points
 [] Internal Links
 [] Title Page
-[] TOC
+[-] TOC
 [-] Opening document options
 [] Load external files
 [-] Images
