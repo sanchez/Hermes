@@ -181,6 +181,21 @@ class Handler:
         
         titleStyle.alignment = TA_LEFT
 
+        canv.setStrokeColor(self.primaryColor)
+        canv.setLineWidth(5)
+        canv.circle(A4[0], 500, 50)
+        canv.circle(A4[0] - 20, 600, 60)
+        canv.circle(A4[0] + 60, 600, 100)
+        canv.circle(A4[0] - 40, 700, 30)
+        canv.circle(A4[0], 710, 30)
+        canv.circle(A4[0], 500, 100)
+        canv.circle(A4[0] - 80, 800, 10)
+        canv.circle(A4[0] - 60, 778, 20)
+        canv.circle(A4[0] - 6, 750, 40)
+        canv.circle(A4[0] - 50, 740, 20)
+        canv.circle(A4[0] + 10, 420, 80)
+        canv.circle(A4[0], 300, 60)
+
         canv.setFont("Helvetica", 12)
         canv.showPage()
 
