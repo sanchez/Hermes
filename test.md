@@ -84,3 +84,8 @@ This should be the ending of the current page
 This should be on the new page
 
 ![The caption should be here](testImage.png)
+
+# Heading Space 1
+Some text should go here
+And some should go here without a break
+# Second Heading No Line Space

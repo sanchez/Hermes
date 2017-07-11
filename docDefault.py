@@ -57,7 +57,7 @@ class Handler:
             fontSize=20,
             spaceAfter=12,
             fontName="Helvetica-Bold",
-            spaceBefore=18
+            spaceBefore=0
         ))
         self.styles.add(ParagraphStyle(
             "Heading 2",
