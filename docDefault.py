@@ -6,7 +6,7 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT, TA_LEFT
 from reportlab.lib.pagesizes import A4
-from support import Bookmark, BlockQuote, CodeBlock, ResetPageNum
+from support import Bookmark, BlockQuote, CodeBlock, ResetPageNum, Note
 
 class ListOfFigures(TableOfContents):
     def notify(self, kind, stuff):
@@ -331,6 +331,11 @@ class Handler:
         tocFig.levelStyles = style
         self.content.append(Paragraph("List of Figures", self.styles["Heading"]))
         self.content.append(tocFig)
+
+    def add_note(self, header, body):
+        headerP = Paragraph(header, self.styles["Heading"])
+        bodyP = Paragraph("<br />".join(body), self.styles["Normal"])
+        self.content.append(Note(headerP, bodyP, self.primaryColor))
 
     def add_plain_text(self, text):
         if text == "":

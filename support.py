@@ -61,3 +61,20 @@ class CodeBlock(Flowable):
 class ResetPageNum(Flowable):
     def draw(self):
         pass
+
+class Note(Flowable):
+    def __init__(self, header, body, color):
+        Flowable.__init__(self)
+        self.header = header
+        self.body = body
+        self.color = color
+        self.headerHeight = header.wrapOn(None, 450, 0)[1]
+        self.height = self.headerHeight + body.wrap(450, 0)[1] + 3
+        print(self.headerHeight, self.height)
+
+    def draw(self):
+        self.header.drawOn(self.canv, 25, self.height - 13)
+        self.body.drawOn(self.canv, 25, self.headerHeight - 20)
+        self.canv.setStrokeColor(self.color)
+        self.canv.setLineWidth(3)
+        self.canv.roundRect(0, -10, 500, self.height + 7, 10)

@@ -90,3 +90,11 @@ Some text should go here
 And some should go here without a break
 # Second Heading No Line Space
 Colored text can ~(orange)be applied~ using fancy markdown syntax
+
+Content Before Note
+Note Header
+====
+Body content for the note
+This should be on a newline as well
+
+Text after note
