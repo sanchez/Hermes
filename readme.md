@@ -36,4 +36,5 @@ Where `filename.md` is the location of the file. At the current point in time, t
 [] Add wiki pages for markdown
 [-] Header and footer
 [-] Color Text
-[] Add note block
+[-] Add note block
+[] Add support for plantuml
