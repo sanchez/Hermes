@@ -103,3 +103,5 @@ This should be on a newline as well
 Text after note
 \\
 [Python Image](#fig:testImg)
+
+This should have a link to [Google](http://google.com)
