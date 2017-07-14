@@ -83,7 +83,10 @@ This should be the ending of the current page
 \\
 This should be on the new page
 
+Reference before the image [Figure 1](#fig:testImg)
+
 ![The caption should be here](testImage.png)
+{fig:testImg}
 
 # Heading Space 1
 Some text should go here
@@ -98,3 +101,5 @@ Body content for the note
 This should be on a newline as well
 
 Text after note
+\\
+[Python Image](#fig:testImg)

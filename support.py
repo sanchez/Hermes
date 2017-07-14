@@ -23,6 +23,14 @@ class Bookmark(Flowable):
     def get_key(self):
         return self.key
 
+class CustomBookmark(Flowable):
+    def __init__(self, key):
+        Flowable.__init__(self)
+        self.key = key
+
+    def draw(self):
+        self.canv.bookmarkPage(self.key)
+
 class BlockQuote(Flowable):
     def __init__(self, text, style):
         Flowable.__init__(self)

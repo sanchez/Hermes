@@ -56,6 +56,9 @@ class Parser:
     re_toc = re.compile(r"^\\toc$")
     re_comment = re.compile(r"^\\(.+)$")
     re_note_line = re.compile(r"^=+$")
+    re_link_reference = re.compile(r"^\{(.+)\}$")
+    re_link = re.compile(r"(?<!\!)\[(.*)\]\((.+)\)")
+    re_intern_link = re.compile(r"[^!]\[(.*)\]\((.+):(.+)\)")
 
     def __init__(self, sourceFile):
         print("Reading from file: %s" % sourceFile)
@@ -74,6 +77,7 @@ class Parser:
             line = self.process_italics(line)
             line = self.process_double_dash(line)
             line = self.process_color_inline(line)
+            line = self.process_link(line)
             #print(line)
             self.lines.assign(line)
             self.lines.get()
@@ -108,6 +112,8 @@ class Parser:
                 self.docHandler.add_toc()
             elif re.search(self.re_comment, line):
                 self.lines.get()
+            elif re.search(self.re_link_reference, line):
+                self.process_link_reference()
             else:
                 self.process_plain_text()
 
@@ -127,6 +133,9 @@ class Parser:
         if re.search(self.re_code_block, line):
             return line
         return re.sub(self.re_code_inline, self.docHandler.add_code_inline, line)
+
+    def process_link(self, line):
+         return re.sub(self.re_link, self.docHandler.add_link, line)
 
     def process_config(self):
         self.lines.get()
@@ -231,6 +240,11 @@ class Parser:
         captionData = result.group(1)
         self.docHandler.add_image(location, captionData)
 
+    def process_link_reference(self):
+        result = re.search(self.re_link_reference, self.lines.get())
+        referenceName = result.group(1)
+        print("Got reference: %s" % referenceName)
+        self.docHandler.add_reference_anchor(referenceName)
 
     def process_plain_text(self):
         currentLine = self.lines.get()

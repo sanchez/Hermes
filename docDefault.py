@@ -6,7 +6,17 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT, TA_LEFT
 from reportlab.lib.pagesizes import A4
-from support import Bookmark, BlockQuote, CodeBlock, ResetPageNum, Note
+from support import *
+
+def get_figure_count():
+    get_figure_count.i += 1
+    return get_figure_count.i
+get_figure_count.i = 0
+
+def get_header_count():
+    get_header_count.i += 1
+    return get_header_count.i
+get_header_count.i = 0
 
 class ListOfFigures(TableOfContents):
     def notify(self, kind, stuff):
@@ -218,6 +228,9 @@ class Handler:
     def add_code_inline(self, matchobj):
         return "<font name='courier' bgcolor='lightgrey'><b>%s</b></font>" % matchobj.group(1)
 
+    def add_link(self, matchobj):
+        return "<u><a href='%s'>%s</a></u>" % (matchobj.group(2), matchobj.group(1))
+
     def add_heading(self, title, depth, options):
         if depth == 1:
             self.content.append(Paragraph(title, self.styles["Heading 1"]))
@@ -336,6 +349,9 @@ class Handler:
         headerP = Paragraph(header, self.styles["Heading"])
         bodyP = Paragraph("<br />".join(body), self.styles["Normal"])
         self.content.append(Note(headerP, bodyP, self.primaryColor))
+
+    def add_reference_anchor(self, key):
+        self.content.append(CustomBookmark(key))
 
     def add_plain_text(self, text):
         if text == "":
