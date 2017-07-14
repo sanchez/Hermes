@@ -15,8 +15,8 @@ Where `filename.md` is the location of the file. At the current point in time, t
 [-] Headers
 [-] Plain Text
 [-] Bullet points
-[] Internal Links
-[] External Links
+[-] Internal Links
+[-] External Links
 [-] Title Page
 [-] TOC
 [-] Opening document options
