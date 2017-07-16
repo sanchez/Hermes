@@ -60,10 +60,10 @@ class Parser:
     re_link = re.compile(r"(?<!\!)\[(.*)\]\((.+)\)")
     re_intern_link = re.compile(r"[^!]\[(.*)\]\((.+):(.+)\)")
 
-    def __init__(self, sourceFile):
+    def __init__(self, sourceFile, handler):
         print("Reading from file: %s" % sourceFile)
         self.lines = FileReader(sourceFile)
-        self.docHandler = Handler("test.pdf")
+        self.docHandler = handler
         self.config = {}
 
         self.process_file()

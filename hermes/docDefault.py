@@ -50,6 +50,7 @@ class Handler:
     def __init__(self, destName):
         self.c = MyDocTemplate(destName, bottomup=0, pagesize=A4,
             topMargin=40, bottomMargin=40, leftMargin=40, rightMargin=40)
+        print("Writing to file: %s" % destName)
         self.destName = destName
 
         self.content = []

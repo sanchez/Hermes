@@ -7,7 +7,8 @@ from docDefault import Handler
 def main():
     print("Running Hermes")
     sourceFile = sys.argv[1];
-    originalFile = Parser(sourceFile)
+    outputFile = Handler(sys.argv[2]);
+    originalFile = Parser(sourceFile, outputFile)
 
 if __name__ == '__main__':
     main()
