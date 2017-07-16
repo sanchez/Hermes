@@ -48,11 +48,11 @@ Something here
 > And this one should wrap for a really really really long line, I honestly don't know what else to right other than come on already
 And some other text right here
 
-[] Checklist 1
-    [] Checklist deep 1
-[] Checklist 2
-[-] Checked 1
-[] Checklist 3
+- [ ] Checklist 1
+    - [ ] Checklist deep 1
+- [ ] Checklist 2
+- [x] Checked 1
+- [ ] Checklist 3
 
 This is to test out the inline code blocks feature. `This should` be blocked and the following:
 ```

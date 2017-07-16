@@ -48,7 +48,7 @@ class Parser:
     re_table_line = re.compile(r"^(?:\|\s-*\s){1,}\|$")
     re_table_caption = re.compile(r"^:\s(.+)$")
     re_blockquote = re.compile(r"^> (.+)$")
-    re_checklist = re.compile(r"^(\s*)\[(-?)\] (.+)$")
+    re_checklist = re.compile(r"^(\s*)- \[(x| )\] (.+)$")
     re_config_block = re.compile(r"^---$")
     re_config_line = re.compile(r"^(.+):\s?(.+)$")
     re_newline = re.compile(r"^\\\\$")
@@ -90,6 +90,8 @@ class Parser:
             line = self.lines.peek()
             if re.search(self.re_heading, line):
                 self.process_header()
+            elif re.search(self.re_checklist, line):
+                self.process_checklist()
             elif re.search(self.re_num_item, line):
                 self.process_list()
             elif re.search(self.re_bullet_item, line):
@@ -98,8 +100,6 @@ class Parser:
                 self.process_table()
             elif re.search(self.re_blockquote, line):
                 self.process_blockquote()
-            elif re.search(self.re_checklist, line):
-                self.process_checklist()
             elif re.search(self.re_code_block, line):
                 self.process_code()
             elif re.search(self.re_newline, line):
@@ -230,7 +230,7 @@ class Parser:
     def process_checklist(self):
         checklist = re.search(self.re_checklist, self.lines.get())
         depth = len(checklist.group(1)) / 4
-        checked = len(checklist.group(2)) == 1
+        checked = checklist.group(2) == "x"
         text = checklist.group(3)
         self.docHandler.add_checklist(checked, text, depth)
 
