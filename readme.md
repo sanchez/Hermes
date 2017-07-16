@@ -21,7 +21,7 @@ Where `filename.md` is the location of the file. At the current point in time, t
 [x] TOC
 [x] Opening document options
 [ ] Load external files
-[-] Images
+[x] Images
 [x] Number Points
 [ ] Control Output File
 [x] BlockQuotes
