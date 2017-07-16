@@ -23,7 +23,7 @@ Where `filename.md` is the location of the file. At the current point in time, t
 - [ ] Load external files
 - [x] Images
 - [x] Number Points
-- [ ] Control Output File
+- [x] Control Output File
 - [x] BlockQuotes
 - [x] Tables
 - [x] Captions
@@ -38,3 +38,5 @@ Where `filename.md` is the location of the file. At the current point in time, t
 - [x] Color Text
 - [x] Add note block
 - [ ] Add support for plantuml
+- [ ] Support for different templates (this is going to need a lot of refactoring)
+- [ ] Equations and equation symbols
