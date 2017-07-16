@@ -12,29 +12,29 @@ To run Hermes, simply install reportlab and clone this repo. Then from within cl
 Where `filename.md` is the location of the file. At the current point in time, the output file will be test.pdf and Hermes will use the default template. Support for other templates and file output is planned
 
 # To-do list
-[-] Headers
-[-] Plain Text
-[-] Bullet points
-[-] Internal Links
-[-] External Links
-[-] Title Page
-[-] TOC
-[-] Opening document options
-[] Load external files
+[x] Headers
+[x] Plain Text
+[x] Bullet points
+[x] Internal Links
+[x] External Links
+[x] Title Page
+[x] TOC
+[x] Opening document options
+[ ] Load external files
 [-] Images
-[-] Number Points
-[] Control Output File
-[-] BlockQuotes
-[-] Tables
-[-] Captions
-[-] Checklist
-[-] Bold
-[-] Italics
-[-] Inline Code Blocks
-[-] Code Blocks
-[] Add wiki pages for how to create custom templates
-[] Add wiki pages for markdown
-[-] Header and footer
-[-] Color Text
-[-] Add note block
-[] Add support for plantuml
+[x] Number Points
+[ ] Control Output File
+[x] BlockQuotes
+[x] Tables
+[x] Captions
+[x] Checklist
+[x] Bold
+[x] Italics
+[x] Inline Code Blocks
+[x] Code Blocks
+[ ] Add wiki pages for how to create custom templates
+[ ] Add wiki pages for markdown
+[x] Header and footer
+[x] Color Text
+[x] Add note block
+[ ] Add support for plantuml
