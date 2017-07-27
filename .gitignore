@@ -2,3 +2,5 @@
 *.pdf
 __pycache__/
 *.png
+.vscode/
+pnglatex

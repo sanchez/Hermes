@@ -105,3 +105,11 @@ Text after note
 [Python Image](#fig:testImg)
 
 This should have a link to [Google](http://google.com)
+
+Equation should follow here:
+$$$
+x+y&=z\\
+1&=\frac{1}{1}
+$$$
+: Equation Caption
+After Equation

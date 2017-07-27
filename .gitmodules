@@ -1,0 +1,3 @@
+[submodule "pnglatex"]
+	path = pnglatex
+	url = git@github.com:mneri/pnglatex.git

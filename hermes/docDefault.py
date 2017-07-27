@@ -7,6 +7,8 @@ from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from support import *
+from equation import EquationBlock
+from subprocess import call
 
 def get_figure_count():
     get_figure_count.i += 1
@@ -17,6 +19,11 @@ def get_header_count():
     get_header_count.i += 1
     return get_header_count.i
 get_header_count.i = 0
+
+def get_equation_count():
+    get_equation_count.i += 1
+    return get_equation_count.i
+get_equation_count.i = 0
 
 class ListOfFigures(TableOfContents):
     def notify(self, kind, stuff):
@@ -107,6 +114,10 @@ class Handler:
         ))
         self.styles.add(ParagraphStyle(
             "FCaption",
+            parent=self.styles["Caption"]
+        ))
+        self.styles.add(ParagraphStyle(
+            "ECaption",
             parent=self.styles["Caption"]
         ))
         self.styles.add(ParagraphStyle(
@@ -353,6 +364,16 @@ class Handler:
 
     def add_reference_anchor(self, key):
         self.content.append(CustomBookmark(key))
+
+    def add_eq_block(self, cache, caption):
+        eq = "".join(cache)
+        num = get_equation_count()
+        call(["pnglatex/pnglatex", "-f", eq, "-o", ".hermes/%d.png" % num, "-d", "192", "-e", "align*", "-p", "amsmath", "-S"])
+        im = Image(".hermes/%d.png" % num)
+        im._restrictSize(im.imageWidth, im.imageHeight / 2)
+        self.content.append(im)
+        if caption:
+            self.content.append(Paragraph("Equation %d: %s" % (num, caption), self.styles["ECaption"]))
 
     def add_plain_text(self, text):
         if text == "":

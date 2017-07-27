@@ -59,6 +59,8 @@ class Parser:
     re_link_reference = re.compile(r"^\{(.+)\}$")
     re_link = re.compile(r"(?<!\!)\[(.*)\]\((.+)\)")
     re_intern_link = re.compile(r"[^!]\[(.*)\]\((.+):(.+)\)")
+    re_eq_block = re.compile(r"^\${3}$")
+    re_eq_caption = re.compile(r"^:\s(.+)$")
 
     def __init__(self, sourceFile, handler):
         print("Reading from file: %s" % sourceFile)
@@ -114,6 +116,8 @@ class Parser:
                 self.lines.get()
             elif re.search(self.re_link_reference, line):
                 self.process_link_reference()
+            elif re.search(self.re_eq_block, line):
+                self.process_eq_block()
             else:
                 self.process_plain_text()
 
@@ -222,6 +226,22 @@ class Parser:
                 break
             codeCache.append(self.lines.get())
         self.docHandler.add_code(codeCache)
+
+    def process_eq_block(self):
+        eqCache = []
+        self.lines.get()
+        while self.lines.peek() != None:
+            result = re.search(self.re_eq_block, self.lines.peek())
+            if result:
+                self.lines.get()
+                break
+            eqCache.append(self.lines.get())
+        caption = None
+        result = re.search(self.re_eq_caption, self.lines.peek())
+        if result:
+            self.lines.get()
+            caption = result.group(1)
+        self.docHandler.add_eq_block(eqCache, caption)
 
     def process_blockquote(self):
         text = re.search(self.re_blockquote, self.lines.get())
