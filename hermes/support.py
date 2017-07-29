@@ -78,7 +78,6 @@ class Note(Flowable):
         self.color = color
         self.headerHeight = header.wrapOn(None, 450, 0)[1]
         self.height = self.headerHeight + body.wrap(450, 0)[1] + 3
-        print(self.headerHeight, self.height)
 
     def draw(self):
         self.header.drawOn(self.canv, 25, self.height - 13)

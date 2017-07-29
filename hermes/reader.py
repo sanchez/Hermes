@@ -263,7 +263,6 @@ class Parser:
     def process_link_reference(self):
         result = re.search(self.re_link_reference, self.lines.get())
         referenceName = result.group(1)
-        print("Got reference: %s" % referenceName)
         self.docHandler.add_reference_anchor(referenceName)
 
     def process_plain_text(self):
