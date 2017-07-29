@@ -113,3 +113,7 @@ x+y&=z\\
 $$$
 : Equation Caption
 After Equation
+
+| **H1** | **H2** | **H3** |
+| This |(lightblue) Is | Small |
+|(orange) Second | Line | Text |

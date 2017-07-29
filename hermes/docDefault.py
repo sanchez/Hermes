@@ -63,6 +63,7 @@ class Handler:
         self.content = []
         self.styles = getSampleStyleSheet()
         self.primaryColor = "#0B75CB"
+        self.greyColor = "#e2e2e2"
         self.tableCount = 1
         self.figureCount = 1
         self.config = {}
@@ -285,19 +286,27 @@ class Handler:
         if headerRow != None:
             data.append([])
             for header in headerRow:
-                data[0].append(Paragraph(header, self.styles["Table Heading"]))
+                data[0].append(Paragraph(header[1], self.styles["Table Heading"]))
         rowCount = 0
         for row in tableData:
             newRow = []
-            for column in row:
-                p = Paragraph(column, self.styles["Normal"])
-                newRow.append(p)
-            data.append(newRow)
             rowCount += 1
             if (rowCount % 2):
                 style.append(
-                    ('BACKGROUND', (0,rowCount), (-1,rowCount), colors.lightgrey)
+                    ('BACKGROUND', (0,rowCount), (-1,rowCount), self.greyColor)
                 )
+            columnCount = 0
+            for column in row:
+                color = column[0]
+                if color != '':
+                    realColor = colors.getAllNamedColors()[color]
+                    style.append(
+                        ('BACKGROUND', (columnCount, rowCount - 1), (columnCount, rowCount - 1), realColor)
+                    )
+                columnCount =+ 1
+                p = Paragraph(column[1], self.styles["Normal"])
+                newRow.append(p)
+            data.append(newRow)
         t = Table(data, style=style)
         self.content.append(t)
         if caption:
