@@ -37,7 +37,8 @@ class Parser:
 
     re_heading = re.compile(r"^(#{1,6})(\{(.+)\})? (.+)$")
     re_bold = re.compile(r"\*{2}([^\*]+)\*{2}")
-    re_italics = re.compile(r"(?:\*|_)([^\*]+)(?:\*|_)")
+    re_italics = re.compile(r"\*([^\*]+)\*")
+    re_underline = re.compile(r"_([^_]+)_")
     re_code_inline = re.compile(r"\`(.+)\`")
     re_double_dash = re.compile(r"([^-])(-{2})([^-])")
     re_color_inline = re.compile(r"~\((.*)\)(.+)~")
@@ -79,6 +80,7 @@ class Parser:
             line = self.process_italics(line)
             line = self.process_double_dash(line)
             line = self.process_color_inline(line)
+            line = self.process_underline(line)
             line = self.process_link(line)
             #print(line)
             self.lines.assign(line)
@@ -132,6 +134,9 @@ class Parser:
 
     def process_italics(self, line):
         return re.sub(self.re_italics, self.docHandler.add_italics, line)
+
+    def process_underline(self, line):
+        return re.sub(self.re_underline, self.docHandler.add_underline, line)
 
     def process_code_inline(self, line):
         if re.search(self.re_code_block, line):

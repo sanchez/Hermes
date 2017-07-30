@@ -120,3 +120,5 @@ After Equation
 
 This should be a really large image:
 ![Image](test2.png){50}
+
+Now to test _underline_ text!

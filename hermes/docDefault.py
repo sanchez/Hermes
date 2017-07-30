@@ -244,6 +244,9 @@ class Handler:
     def add_link(self, matchobj):
         return "<u><a href='%s'>%s</a></u>" % (matchobj.group(2), matchobj.group(1))
 
+    def add_underline(self, matchobj):
+        return "<u>%s</u>" % matchobj.group(1)
+
     def add_heading(self, title, depth, options):
         if depth == 1:
             self.content.append(Paragraph(title, self.styles["Heading 1"]))
