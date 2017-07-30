@@ -3,7 +3,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Tabl
 from reportlab.platypus.tableofcontents import TableOfContents
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.colors import HexColor
-from reportlab.lib import colors
+from reportlab.lib import colors, utils
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from support import *
@@ -340,8 +340,15 @@ class Handler:
     def add_newline(self):
         self.content.append(PageBreak())
 
-    def add_image(self, location, caption):
-        self.content.append(Image(location))
+    def add_image(self, location, caption, width):
+        if width:
+            img = utils.ImageReader(location)
+            iw, ih = img.getSize()
+            aspect = ih / float(iw)
+            width = (A4[0] - 100) * float(width) / float(100)
+            self.content.append(Image(location, width=width, height=(aspect * width)))
+        else:
+            self.content.append(Image(location))
         if caption:
             self.content.append(Paragraph(
                 "Figure %d: %s" % (self.figureCount, caption), self.styles["FCaption"]))

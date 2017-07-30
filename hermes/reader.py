@@ -52,7 +52,7 @@ class Parser:
     re_config_block = re.compile(r"^---$")
     re_config_line = re.compile(r"^(.+):\s?(.+)$")
     re_newline = re.compile(r"^\\\\$")
-    re_image = re.compile(r"^!\[(.+)\]\((.+)\)$")
+    re_image = re.compile(r"^!\[(.+)\]\((.+)\)(?:\{(.+)\})?$")
     re_toc = re.compile(r"^\\toc$")
     re_comment = re.compile(r"^\\(.+)$")
     re_note_line = re.compile(r"^=+$")
@@ -258,7 +258,8 @@ class Parser:
         result = re.search(self.re_image, self.lines.get())
         location = result.group(2)
         captionData = result.group(1)
-        self.docHandler.add_image(location, captionData)
+        width = result.group(3)
+        self.docHandler.add_image(location, captionData, width)
 
     def process_link_reference(self):
         result = re.search(self.re_link_reference, self.lines.get())

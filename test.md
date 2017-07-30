@@ -117,3 +117,6 @@ After Equation
 | **H1** | **H2** | **H3** |
 | This |(lightblue) Is | Small |
 |(orange) Second | Line | Text |
+
+This should be a really large image:
+![Image](test2.png){50}
