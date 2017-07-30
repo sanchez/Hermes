@@ -384,7 +384,7 @@ class Handler:
     def add_eq_block(self, cache, caption):
         eq = "".join(cache)
         num = get_equation_count()
-        call(["pnglatex/pnglatex", "-f", eq, "-o", ".hermes/%d.png" % num, "-d", "192", "-e", "align*", "-p", "amsmath", "-S"])
+        call(["/home/sanchez/Documents/git/Hermes/pnglatex/pnglatex", "-f", eq, "-o", ".hermes/%d.png" % num, "-d", "192", "-e", "align*", "-p", "amsmath", "-S"])
         im = Image(".hermes/%d.png" % num)
         im._restrictSize(im.imageWidth, im.imageHeight / 2)
         self.content.append(im)
