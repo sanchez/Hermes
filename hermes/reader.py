@@ -155,6 +155,7 @@ class Parser:
          return re.sub(self.re_link, self.docHandler.add_link, line)
 
     def process_symbols(self, line):
+        line = line.replace("<->", "&harr;")
         line = line.replace("<-", "&larr;")
         line = line.replace("->", "&rarr;")
         line = line.replace("(/)", "&empty;")
