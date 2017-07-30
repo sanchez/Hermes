@@ -77,6 +77,7 @@ class Parser:
     def process_file(self):
         while self.lines.peek() != None:
             line = self.lines.peek()
+            line = self.process_symbols(line)
             line = self.process_code_inline(line)
             line = self.process_bold(line)
             line = self.process_italics(line)
@@ -152,6 +153,12 @@ class Parser:
 
     def process_link(self, line):
          return re.sub(self.re_link, self.docHandler.add_link, line)
+
+    def process_symbols(self, line):
+        line = line.replace("<-", "&larr;")
+        line = line.replace("->", "&rarr;")
+        line = line.replace("(/)", "&empty;")
+        return line
 
     def process_config(self):
         self.lines.get()
