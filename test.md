@@ -121,4 +121,4 @@ After Equation
 This should be a really large image:
 ![Image](test2.png){50}
 
-Now to test _underline_ text!
+Now to test _underline_ text! There is now support for super{{1}} and sub{1}

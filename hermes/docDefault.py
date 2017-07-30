@@ -247,6 +247,12 @@ class Handler:
     def add_underline(self, matchobj):
         return "<u>%s</u>" % matchobj.group(1)
 
+    def add_sub(self, matchobj):
+        return "<sub>%s</sub>" % matchobj.group(1)
+
+    def add_super(self, matchobj):
+        return "<sup>%s</sup>" % matchobj.group(1)
+
     def add_heading(self, title, depth, options):
         if depth == 1:
             self.content.append(Paragraph(title, self.styles["Heading 1"]))
