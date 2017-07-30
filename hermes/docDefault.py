@@ -303,7 +303,7 @@ class Handler:
                     style.append(
                         ('BACKGROUND', (columnCount, rowCount - 1), (columnCount, rowCount - 1), realColor)
                     )
-                columnCount =+ 1
+                columnCount += 1
                 p = Paragraph(column[1], self.styles["Normal"])
                 newRow.append(p)
             data.append(newRow)
