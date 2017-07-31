@@ -57,7 +57,7 @@ class Parser:
     re_newline = re.compile(r"^\\\\$")
     re_image = re.compile(r"^!\[(.+)\]\((.+)\)(?:\{(.+)\})?$")
     re_toc = re.compile(r"^\\toc$")
-    re_comment = re.compile(r"^\\(.+)$")
+    re_comment = re.compile(r"^\\(.*)$")
     re_note_line = re.compile(r"^=+$")
     re_link_reference = re.compile(r"^\{(.+)\}$")
     re_link = re.compile(r"(?<!\!)\[(.*)\]\((.+)\)")
