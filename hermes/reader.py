@@ -42,7 +42,6 @@ class Parser:
     re_sub = re.compile(r"\{(\w+)\}")
     re_super = re.compile(r"\{{2}(\w+)\}{2}")
     re_code_inline = re.compile(r"\`(.+)\`")
-    re_double_dash = re.compile(r"([^-])(-{2})([^-])")
     re_color_inline = re.compile(r"~\((.*)\)(.+)~")
     re_code_block = re.compile(r"^```$")
     re_bullet_item = re.compile(r"^(\s*)[-\.\*] (.+)$")
@@ -66,7 +65,7 @@ class Parser:
     re_eq_caption = re.compile(r"^:\s(.+)$")
 
     def __init__(self, sourceFile, handler):
-        print("Reading from file: %s" % sourceFile)
+        print("Reading from file:s %s" % sourceFile)
         self.lines = FileReader(sourceFile)
         self.docHandler = handler
         self.config = {}
@@ -81,7 +80,6 @@ class Parser:
             line = self.process_code_inline(line)
             line = self.process_bold(line)
             line = self.process_italics(line)
-            line = self.process_double_dash(line)
             line = self.process_color_inline(line)
             line = self.process_underline(line)
             line = self.process_link(line)
@@ -130,9 +128,6 @@ class Parser:
     def process_color_inline(self, line):
         return re.sub(self.re_color_inline, self.docHandler.add_color_inline, line)
 
-    def process_double_dash(self, line):
-        return re.sub(self.re_double_dash, self.docHandler.add_double_dash, line)
-
     def process_bold(self, line):
         return re.sub(self.re_bold, self.docHandler.add_bold, line)
 
@@ -155,10 +150,13 @@ class Parser:
          return re.sub(self.re_link, self.docHandler.add_link, line)
 
     def process_symbols(self, line):
+        line = line.replace("---", "&config;")
+        line = line.replace("--", "&ndash;")
         line = line.replace("<->", "&harr;")
         line = line.replace("<-", "&larr;")
         line = line.replace("->", "&rarr;")
         line = line.replace("(/)", "&empty;")
+        line = line.replace("&config;", "---")
         return line
 
     def process_config(self):

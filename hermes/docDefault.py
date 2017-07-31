@@ -228,9 +228,6 @@ class Handler:
         if color == "primary" or color == "":
             color = self.primaryColor
         return "<font color='%s'>%s</font>" % (color, text)
-        
-    def add_double_dash(self, matchobj):
-        return u"%s\u2013%s" % (matchobj.group(1), matchobj.group(3))
 
     def add_bold(self, matchobj):
         return "<b>%s</b>" % matchobj.group(1)
