@@ -126,3 +126,8 @@ Added -> and <- as well as (/) 15&deg;
 Harr <->
 \
 No line break
+
+Table with no spacing in pipes
+|**Heading**|Heree
+|No spaces|Next to the pipes
+|This is ugly|But quick to type

@@ -46,7 +46,7 @@ class Parser:
     re_code_block = re.compile(r"^```$")
     re_bullet_item = re.compile(r"^(\s*)[-\.\*] (.+)$")
     re_num_item = re.compile(r"^(\s*)\d+[\)\.] (.+)$")
-    re_table_row = re.compile(r"\|(?:\((\w+)\))?\s([^\|]*)")
+    re_table_row = re.compile(r"\|(?:\((\w+)\))?\s?([^\|]*)")
     re_table_line = re.compile(r"^(?:\|\s-*\s){1,}\|$")
     re_table_caption = re.compile(r"^:\s(.+)$")
     re_blockquote = re.compile(r"^> (.+)$")
