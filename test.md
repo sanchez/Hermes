@@ -86,7 +86,7 @@ This should be on the new page
 Reference before the image [Figure 1](#fig:testImg)
 
 ![The caption should be here](testImage.png)
-{fig:testImg}
+[fig:testImg]
 
 # Heading Space 1
 Some text should go here
@@ -119,7 +119,7 @@ After Equation
 |(orange) Second | Line |(lightgreen) Text |
 
 This should be a really large image:
-![Image](test2.png){50}
+![Image](test2.jpg)[50]
 
 Now to test _underline_ text! There is now support for super{{1}} and sub{1}
 Added -> and <- as well as (/) 15&deg;
@@ -131,3 +131,7 @@ Table with no spacing in pipes
 |**Heading**|Heree
 |No spaces|Next to the pipes
 |This is ugly|But quick to type
+
+$$$
+Some_{**thing**} 5_4
+$$$

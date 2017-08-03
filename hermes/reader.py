@@ -54,11 +54,11 @@ class Parser:
     re_config_block = re.compile(r"^---$")
     re_config_line = re.compile(r"^(.+):\s?(.+)$")
     re_newline = re.compile(r"^\\\\$")
-    re_image = re.compile(r"^!\[(.+)\]\((.+)\)(?:\{(.+)\})?$")
+    re_image = re.compile(r"^!\[(.+)\]\((.+)\)(?:\[(.+)\])?$")
     re_toc = re.compile(r"^\\toc$")
     re_comment = re.compile(r"^\\(.*)$")
     re_note_line = re.compile(r"^=+$")
-    re_link_reference = re.compile(r"^\{(.+)\}$")
+    re_link_reference = re.compile(r"^\[(.+)\]$")
     re_link = re.compile(r"(?<!\!)\[(.*)\]\((.+)\)")
     re_intern_link = re.compile(r"[^!]\[(.*)\]\((.+):(.+)\)")
     re_eq_block = re.compile(r"^\${3}$")
@@ -75,6 +75,10 @@ class Parser:
 
     def process_file(self):
         while self.lines.peek() != None:
+            if re.search(self.re_eq_block, self.lines.peek()):
+                self.lines.get()
+                while (not re.search(self.re_eq_block, self.lines.peek())):
+                    self.lines.get()
             line = self.lines.peek()
             line = self.process_symbols(line)
             line = self.process_code_inline(line)
