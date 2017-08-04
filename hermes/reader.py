@@ -41,7 +41,7 @@ class Parser:
     re_underline = re.compile(r"_([^_]+)_")
     re_sub = re.compile(r"\{(\w+)\}")
     re_super = re.compile(r"\{{2}(\w+)\}{2}")
-    re_code_inline = re.compile(r"\`(.+)\`")
+    re_code_inline = re.compile(r"\`([^`]+)\`")
     re_color_inline = re.compile(r"~\(([^`)]*)\)([^~]+)~")
     re_code_block = re.compile(r"^```$")
     re_bullet_item = re.compile(r"^(\s*)[-\.\*] (.+)$")
@@ -160,6 +160,8 @@ class Parser:
         line = line.replace("<-", "&larr;")
         line = line.replace("->", "&rarr;")
         line = line.replace("(/)", "&empty;")
+        line = line.replace("\_", "&#95;")
+        line = line.replace("\|", "&#124;")
         line = line.replace("&config;", "---")
         return line
 
