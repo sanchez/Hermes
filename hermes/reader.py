@@ -42,7 +42,7 @@ class Parser:
     re_sub = re.compile(r"\{(\w+)\}")
     re_super = re.compile(r"\{{2}(\w+)\}{2}")
     re_code_inline = re.compile(r"\`(.+)\`")
-    re_color_inline = re.compile(r"~\((.*)\)(.+)~")
+    re_color_inline = re.compile(r"~\(([^`)]*)\)([^~]+)~")
     re_code_block = re.compile(r"^```$")
     re_bullet_item = re.compile(r"^(\s*)[-\.\*] (.+)$")
     re_num_item = re.compile(r"^(\s*)\d+[\)\.] (.+)$")
