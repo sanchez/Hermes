@@ -1,11 +1,6 @@
 from reportlab.platypus import (Flowable, Paragraph, SimpleDocTemplate, Spacer, XPreformatted)
 from reportlab.lib import colors
 
-def get_key():
-    get_key.i += 1
-    return get_key.i
-get_key.i = 0
-
 class LineFeed:
     def __init__(self, lines):
         self.linePos = 0
@@ -31,6 +26,11 @@ class LineFeed:
         
     def reset(self):
         self.linePos = 0
+
+def get_key():
+    get_key.i += 1
+    return get_key.i
+get_key.i = 0
 
 class Bookmark(Flowable):
     def __init__(self, text, depth):
