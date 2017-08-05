@@ -3,6 +3,10 @@
 import sys
 from reader import Parser
 from docDefault import Handler
+import re
+
+class Hermes:
+    re_config_block = re.compile(r"^---$")
 
 def main():
     print("Running Hermes")
