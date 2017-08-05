@@ -6,7 +6,9 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 class docDefault():
     def __init__(self, config):
         print("Loading Default Template")
+
         parser.set_lookup(self.reHeader, "header")
+
         self.content = []
         self.styles = getSampleStyleSheet()
         self.primaryColor = "#0B75CB"
@@ -30,6 +32,12 @@ class docDefault():
 
     def header_footer(self, canv, doc):
         print("Page")
+
+    def bold(self, matchobj):
+        return "<b>%s</b>" % matchobj.group(1)
+
+    def italics(self, matchobj):
+        return "<i>%s</i>" % matchobj.group(1)
 
     reHeader = re.compile(r"^(#{1,6})(\{(.+)\})? (.+)$")
     def header(self, lineArray):

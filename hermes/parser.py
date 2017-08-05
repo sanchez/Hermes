@@ -2,7 +2,19 @@ import re
 import support
 
 lookup = {}
-lineLookup = {}
+lineLookup = {
+    re.compile(r"\*{2}([^*]+)\*{2}"): "bold",
+    re.compile(r"\*([^*]+)\*"): "italics"
+}
+symbolLibrary = {
+    "--": "&ndash;",
+    "<->": "&harr;",
+    "<-": "&larr;",
+    "->": "&rarr;",
+    "(/)": "&empty;",
+    "\_": "&#95;",
+    "\|": "&#124;"
+}
 
 def set_lookup(key, value):
     global lookup
@@ -25,9 +37,13 @@ def parse_lines(handler, lines):
             handler.text(lines)
 
 def parse_content_line(handler, line):
-    for key in lookup:
-        if re.search(key, line):
-            methodToCall = getattr(handler, lineLookup[key])
-            if methodToCall:
-                line = methodToCall(line)
+    line = parse_symbol_line(line)
+    for key in lineLookup:
+        methodToCall = getattr(handler, lineLookup[key])
+        line = re.sub(key, methodToCall, line)
+    return line
+
+def parse_symbol_line(line):
+    for key in symbolLibrary:
+        line = line.replace(key, symbolLibrary[key])
     return line

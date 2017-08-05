@@ -8,6 +8,8 @@ subject: ~()**Test Document**~ -- This is a test document for Hermes
 doc: docNote
 titlePage: True
 ---
-Some Text
 # Header
 Some other text
+Text with a symbol ->
+
+Line *blank* **before**
