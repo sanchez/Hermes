@@ -39,6 +39,10 @@ class Hermes:
             print("Found doc type: %s" % self.config["doc"])
             docHandler = locate("%s.%s" % (self.config["doc"], self.config["doc"]))
         self.doc = docHandler(self.config)
+        specialKeys = ["author", "alt-name", "school", "subject", "title"]
+        for key in self.config:
+            if key in specialKeys:
+                self.config[key] = parser.parse_content_line(self.doc, self.config[key])
     
     def save(self, destName):
         print("Output: %s" % destName)

@@ -4,6 +4,9 @@ import support
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus.tableofcontents import TableOfContents
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.enums import TA_CENTER, TA_RIGHT, TA_LEFT
 
 class ListOfFigures(TableOfContents):
     def notify(self, kind, stuff):
@@ -41,6 +44,7 @@ class docDefault():
         self.content = []
         self.styles = getSampleStyleSheet()
         self.primaryColor = "#0B75CB"
+        self.config = config
 
         self.styles.add(ParagraphStyle(
             "Heading 1",
@@ -77,10 +81,83 @@ class docDefault():
         return self.content
 
     def title(self, canv, doc):
-        print("Making title")
+        if "author" in self.config:
+            canv.setAuthor(self.config["author"])
+        else:
+            canv.setAuthor("Hermes")
+        if "title" in self.config:
+            canv.setTitle(self.config["title"])
+        name = self.config["author"].split(" ", 1)
+        titleStyle = self.styles["Normal"]
+        titleStyle.alignment = TA_CENTER
+        titleStyle.fontSize = 24
+        name = Paragraph(
+            "%s<font color='%s'> <b>%s</b></font>" % (name[0], self.primaryColor, name[1]), 
+            titleStyle)
+        nameWidth, nameHeight = name.wrap(A4[0], 0)
+        name.drawOn(canv, 0, A4[1] - 100)
+
+        if "alt-name" in self.config:
+            titleStyle.fontSize = 20
+            titleStyle.alignment = TA_RIGHT
+            altName = Paragraph("(<font color='%s'>%s</font>)" % 
+                (self.primaryColor, self.config["alt-name"]), titleStyle)
+            altName.wrapOn(canv, 450, 0)
+            altName.drawOn(canv, 0, A4[1] - 124)
+
+        if "logo" in self.config:
+            canv.drawImage(self.config["logo"], (3*A4[0] / 8), A4[1] / 2 - 200, width=(A4[0]/4), preserveAspectRatio=True, mask="auto", anchor="c")
+
+        if "school" in self.config:
+            titleStyle.fontSize = 20
+            titleStyle.alignment = TA_CENTER
+            school = Paragraph(self.config["school"], titleStyle)
+            school.wrapOn(canv, A4[0], 0)
+            school.drawOn(canv, 0, 380)
+        
+        if "title" in self.config:
+            titleStyle.fontSize = 18
+            titleStyle.alignment = TA_CENTER
+            title = Paragraph(self.config["title"], titleStyle)
+            title.wrapOn(canv, A4[0], 0)
+            title.drawOn(canv, 0, 200)
+
+        if "subject" in self.config:
+            titleStyle.fontSize = 14
+            titleStyle.alignment = TA_CENTER
+            subject = Paragraph(self.config["subject"], titleStyle)
+            subject.wrapOn(canv, A4[0], 0)
+            subject.drawOn(canv, 0, 350)
+        
+        titleStyle.alignment = TA_LEFT
+
+        canv.setStrokeColor(self.primaryColor)
+        canv.setLineWidth(5)
+        canv.circle(A4[0], 500, 50)
+        canv.circle(A4[0] - 20, 600, 60)
+        canv.circle(A4[0] + 60, 600, 100)
+        canv.circle(A4[0] - 40, 700, 30)
+        canv.circle(A4[0], 710, 30)
+        canv.circle(A4[0], 500, 100)
+        canv.circle(A4[0] - 80, 800, 10)
+        canv.circle(A4[0] - 60, 778, 20)
+        canv.circle(A4[0] - 6, 750, 40)
+        canv.circle(A4[0] - 50, 740, 20)
+        canv.circle(A4[0] + 10, 420, 80)
+        canv.circle(A4[0], 300, 60)
+
+        canv.setFont("Helvetica", 12)
+        canv.showPage()
 
     def header_footer(self, canv, doc):
-        print("Page")
+        canv.setStrokeColor(colors.grey)
+        canv.setFillColor(colors.grey)
+        pageNum = canv.getPageNumber() - 1
+        canv.drawString(A4[0] - 100, 27, "Page %d" % pageNum)
+        canv.drawString(50, 27, self.config["title"])
+        canv.drawCentredString(A4[0]/2, 27, self.config["author"])
+        canv.line(40, 40, A4[0] - 40, 40)
+        canv.line(40, A4[1] - 40, A4[0] - 40, A4[1] - 40)
 
     def bold(self, matchobj):
         return "<b>%s</b>" % matchobj.group(1)
