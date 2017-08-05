@@ -258,7 +258,7 @@ class Handler:
         elif depth == 3:
             newTitle = "<font color=%s>%s</font><font color=black>%s</font>" % (self.primaryColor, title[:1], title[1:])
             self.content.append(Paragraph(newTitle, self.styles["Heading 3"]))
-        if self.tableOfContents:
+        if hasattr(self, "tableOfContents"):
             self.tableOfContents.addEntry(depth, title, 1)
         self.content.append(Bookmark(title, depth))
         
