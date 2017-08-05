@@ -1,4 +1,4 @@
-from reportlab.platypus import Flowable, XPreformatted, KeepTogether
+from reportlab.platypus import Flowable
 
 class LineFeed:
     def __init__(self, lines):
