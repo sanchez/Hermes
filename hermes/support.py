@@ -1,6 +1,4 @@
-from reportlab.platypus import Flowable
-
-tableContentCache = {}
+from reportlab.platypus import Flowable, XPreformatted, KeepTogether
 
 class LineFeed:
     def __init__(self, lines):
@@ -29,11 +27,11 @@ class LineFeed:
         self.linePos = 0
 
 class Bookmark(Flowable):
-    def __init__(self, text, depth, key):
+    def __init__(self, text, depth):
         Flowable.__init__(self)
         self.text = text
         self.depth = depth - 1
-        self.key = key
+        self.key = "B%d%s" % (depth, text)
 
     def __repr__(self):
         return "Bookmark: (%d: %s)" % (self.depth, self.text)
@@ -44,14 +42,3 @@ class Bookmark(Flowable):
 
     def get_key(self):
         return self.key
-
-class TOCEntry(Flowable):
-    def __init__(self, text, depth, key):
-        Flowable.__init__(self)
-        self.text = text
-        self.depth = depth
-        self.key = key
-    
-    def draw(self):
-        global tableContentCache
-        tableContentCache[self.key] = [self.text, self.depth, self.canv.getPageNumber()]

@@ -6,7 +6,6 @@ from support import LineFeed
 import re
 import parser
 from pydoc import locate
-from reportlab.platypus import SimpleDocTemplate
 from reportlab.lib.pagesizes import A4
 
 class Hermes:
@@ -43,7 +42,7 @@ class Hermes:
     
     def save(self, destName):
         print("Output: %s" % destName)
-        template = SimpleDocTemplate(destName, bottomup=0, pagesize=A4, topMargin=40, bottomMargin=40, leftMargin=40, rightMargin=40)
+        template = docDefault.MyDocTemplate(destName, bottomup=0, pagesize=A4, topMargin=40, bottomMargin=40, leftMargin=40, rightMargin=40)
         if "titlePage" in self.config:
             template.multiBuild(self.doc.get_content(), onFirstPage=self.doc.title, onLaterPages=self.doc.header_footer)
         else:
