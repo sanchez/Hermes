@@ -1,6 +1,3 @@
-.hermes/
-*.pdf
-__pycache__/
-*.png
+package-lock.json
+node_modules/
 .vscode/
-pnglatex
