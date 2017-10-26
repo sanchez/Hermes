@@ -49,7 +49,7 @@ class Parser:
     re_table_row = re.compile(r"\|(?:\((\w+)\))?\s?([^\|]*)")
     re_table_line = re.compile(r"^(?:\|\s-*\s){1,}\|$")
     re_table_caption = re.compile(r"^:\s(.+)$")
-    re_blockquote = re.compile(r"^> (.+)$")
+    re_blockquote = re.compile(r"^&gt; (.+)$")
     re_checklist = re.compile(r"^(\s*)- \[(x| )\] (.+)$")
     re_config_block = re.compile(r"^---$")
     re_config_line = re.compile(r"^(.+):\s?(.+)$")
@@ -109,6 +109,7 @@ class Parser:
             elif re.search(self.re_table_row, line):
                 self.process_table()
             elif re.search(self.re_blockquote, line):
+                print("Block")
                 self.process_blockquote()
             elif re.search(self.re_code_block, line):
                 self.process_code()
@@ -162,6 +163,10 @@ class Parser:
         line = line.replace("(/)", "&empty;")
         line = line.replace("\_", "&#95;")
         line = line.replace("\|", "&#124;")
+        line = line.replace("\{", "&#123;")
+        line = line.replace("\}", "&#125;")
+        line = line.replace("<", "&lt;")
+        line = line.replace(">", "&gt;");
         line = line.replace("&config;", "---")
         return line
 

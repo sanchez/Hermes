@@ -357,7 +357,7 @@ class Handler:
             self.content.append(Image(location))
         if caption:
             self.content.append(Paragraph(
-                "Figure %d: %s" % (self.figureCount, caption), self.styles["FCaption"]))
+                "Figure %d: %s" % (get_figure_count(), caption), self.styles["FCaption"]))
 
     def add_toc(self):
         self.tableOfContents = TableOfContents()
