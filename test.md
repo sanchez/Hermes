@@ -10,3 +10,4 @@ template: default
 ## Level 2
 Hello there
 This is testing
+Some text **bold and** some *italics*
