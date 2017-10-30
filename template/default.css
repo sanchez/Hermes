@@ -1,0 +1,56 @@
+
+@font-face {
+    font-family: SourceSans;
+    src: url("file:///home/sanchez/Documents/git/Hermes/template/fonts/SourceSansPro-Regular.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: SourceSans;
+    src: url("file:///home/sanchez/Documents/git/Hermes/template/fonts/SourceSansPro-Bold.otf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: SourceSans;
+    src: url("file:///home/sanchez/Documents/git/Hermes/template/fonts/SourceSansPro-It.otf");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: SourceSans;
+    src: url("file:///home/sanchez/Documents/git/Hermes/template/fonts/SourceSansPro-BoldIt.otf");
+    font-weight: bold;
+    font-style: italic;
+}
+
+html, body {
+    font-family: SourceSans;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+}
+
+h1, h2 {
+    color: orange;
+}
+
+h1 {
+    overflow: hidden;
+}
+
+h1:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    margin-right: -100%;
+    border-bottom: 1px solid orange;
+}
+
+h3::first-letter {
+    color: orange;
+}

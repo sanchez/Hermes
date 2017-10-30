@@ -78,3 +78,20 @@ docTemplate.load_parses();
 var parser = require("./lib/parser.js");
 var resultHtml = parser.parse(lineObject, docTemplate);
 console.log(resultHtml);
+var fs = require("fs");
+fs.writeFile("./test.html", resultHtml, function(err) {
+    if (err) {
+        console.log(err);
+    }
+});
+
+var newConfig = {
+    "format": "A4"
+};
+var pdf = require("html-pdf");
+pdf.create(resultHtml).toFile(process.argv.slice(2)[1], function(err, res) {
+    if (err) {
+        console.log(chalk.red(err));
+    }
+    console.log(res);
+});

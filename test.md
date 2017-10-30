@@ -11,3 +11,6 @@ template: default
 Hello there
 This is testing
 Some text **bold and** some *italics*
+
+### Some Lower Heading
+And text to follow it. **Some bold *with italics***
