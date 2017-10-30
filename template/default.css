@@ -31,6 +31,10 @@ html, body {
     font-family: SourceSans;
 }
 
+p {
+    margin: 0px;
+}
+
 h1, h2, h3, h4, h5, h6 {
     margin: 0px;
 }
@@ -53,4 +57,31 @@ h1:after {
 
 h3::first-letter {
     color: orange;
+}
+
+code {
+    background-color: lightgray;
+    padding: 2px;
+    border-radius: 5px;
+    color: FireBrick;
+    counter-reset: line;
+}
+
+code > p {
+    counter-increment: line;
+}
+
+code > p:before {
+    content: counter(line);
+    -webkit-user-select: none;
+    padding: 2px;
+    padding-right: 10px;
+    padding-left: 4px;
+    margin-right: 4px;
+    border-right: 2px solid black;
+}
+
+code.block {
+    display: block;
+    background-color: white;
 }

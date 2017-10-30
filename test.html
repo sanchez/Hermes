@@ -31,6 +31,10 @@ html, body {
     font-family: SourceSans;
 }
 
+p {
+    margin: 0px;
+}
+
 h1, h2, h3, h4, h5, h6 {
     margin: 0px;
 }
@@ -54,14 +58,47 @@ h1:after {
 h3::first-letter {
     color: orange;
 }
+
+code {
+    background-color: lightgray;
+    padding: 2px;
+    border-radius: 5px;
+    color: FireBrick;
+    counter-reset: line;
+}
+
+code > p {
+    counter-increment: line;
+}
+
+code > p:before {
+    content: counter(line);
+    -webkit-user-select: none;
+    padding: 2px;
+    padding-right: 10px;
+    padding-left: 4px;
+    margin-right: 4px;
+    border-right: 2px solid black;
+}
+
+code.block {
+    display: block;
+    background-color: white;
+}
 </style></head><body>
 <h1>Hello</h1>
 <h2>Level 2</h2>
-Hello there<br />
-This is testing<br />
-Some text <b>bold and</b> some <em>italics</em><br />
-<br />
+<p>Hello there</p>
+<p>This is testing</p>
+<p>Some text <b>bold and</b> some <em>italics</em></p>
+<p></p>
 <h3>Some Lower Heading</h3>
-And text to follow it. <b>Some bold <em>with italics</b></em><br />
-<br />
+<p>And text to follow it. <b>Some bold <em>with italics</em> </b></p>
+<p></p>
+<p>This is <sup>super</sup> and <sub>sub</sub>.</p>
+<p></p>
+<p>Some <code>example code output</code>. Mixed in with a:</p>
+<code class='block'><p>Chunk of</p>
+<p>multiline code output</p>
+</code><p></p>
 </body></html>
