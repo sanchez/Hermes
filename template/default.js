@@ -24,5 +24,6 @@ module.exports = {
     load_parses: function () {
     },
 
-    styles: ["default.css"]
+    styles: ["default.css"],
+    defaultColor: "orange"
 }

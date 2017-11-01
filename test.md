@@ -19,6 +19,8 @@ This is {{super}} and {sub}.
 
 Some `example code output`. Mixed in with a:
 ```
-Chunk of
-multiline code output
+Chunk ~()of~
+multiline **code** output
 ```
+
+Some text with ~()color~ and ~(blue)other~ color
