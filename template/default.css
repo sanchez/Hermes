@@ -52,7 +52,7 @@ h1:after {
     display: inline-block;
     width: 100%;
     margin-right: -100%;
-    border-bottom: 1px solid orange;
+    border-bottom: 0.15em solid orange;
 }
 
 h3::first-letter {
