@@ -24,3 +24,9 @@ multiline **code** output
 ```
 
 Some text with ~()color~ and ~(blue)other~ color
+
+An inline equation $a\times b$ and
+$$$
+a\pm\int^1_0 f(x) dx
+$$$
+\ _f
