@@ -86,10 +86,11 @@ fs.writeFile("./test.html", resultHtml, function(err) {
 });
 
 var newConfig = {
-    "format": "A4"
+    "format": "A4",
+    "renderDelay": "3000"
 };
 var pdf = require("html-pdf");
-pdf.create(resultHtml).toFile(process.argv.slice(2)[1], function(err, res) {
+pdf.create(resultHtml, newConfig).toFile(process.argv.slice(2)[1], function(err, res) {
     if (err) {
         console.log(chalk.red(err));
     }

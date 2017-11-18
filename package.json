@@ -19,6 +19,7 @@
   "dependencies": {
     "chalk": "^2.3.0",
     "html-pdf": "^2.2.0",
+    "mathjax": "^2.7.2",
     "regex": "^0.1.1"
   }
 }
