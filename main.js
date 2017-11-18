@@ -77,7 +77,7 @@ var docTemplate = load_template(header["template"]);
 docTemplate.load_parses();
 var parser = require("./lib/parser.js");
 var resultHtml = parser.parse(lineObject, docTemplate);
-console.log(resultHtml);
+//console.log(resultHtml);
 var fs = require("fs");
 fs.writeFile("./test.html", resultHtml, function(err) {
     if (err) {

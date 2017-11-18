@@ -85,3 +85,8 @@ code.block {
     display: block;
     background-color: white;
 }
+
+ul, ol {
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+}
